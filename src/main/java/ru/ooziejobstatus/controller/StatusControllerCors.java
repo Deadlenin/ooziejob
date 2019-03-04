@@ -21,7 +21,7 @@ import java.util.*;
 @RestController
 public class StatusControllerCors {
     @CrossOrigin(origins = "*")
-    @PostMapping("/message")
+    @PostMapping("/oozie")
     public ResponseEntity<List<Response>> list(@RequestPart("json") List<String> json) {
         List<Response> result = new ArrayList<>();
         try {
@@ -110,8 +110,6 @@ public class StatusControllerCors {
                 conn.disconnect();
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
