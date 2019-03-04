@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "report_pentaho")
 @Cacheable(false)
-public class ReportName {
+public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, unique = true, nullable = false)
@@ -46,7 +46,7 @@ public class ReportName {
 //      return JobNamesList;
 //  }
 //
-//  public ReportName addJobNames(JobNames JobNames) {
+//  public Report addJobNames(JobNames JobNames) {
 //      JobNames.setReport(this);
 //      getJobNamesList().add(JobNames);
 //      return this;
@@ -60,14 +60,14 @@ public class ReportName {
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
 //        if (o == null || getClass() != o.getClass()) return false;
-//        ReportName that = (ReportName)o;
+//        Report that = (Report)o;
 //        return Objects.equals(id, that.id) &&
-//                Objects.equals(ReportName, that.ReportName);
+//                Objects.equals(Report, that.Report);
 //    }
 //
 //    @Override
 //    public int hashCode() {
 //
-//        return Objects.hash(id, ReportName);
+//        return Objects.hash(id, Report);
 //    }
 }
