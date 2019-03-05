@@ -2,13 +2,18 @@ package ru.ooziejobstatus.controller;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import ru.ooziejobstatus.models.Response;
+import ru.ooziejobstatus.entities.JobOozie;
+import ru.ooziejobstatus.entities.Report;
+import ru.ooziejobstatus.models.JobStatus;
+import ru.ooziejobstatus.repos.JobRepositary;
+import ru.ooziejobstatus.repos.ReportRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,24 +25,43 @@ import java.util.*;
 
 @RestController
 public class StatusControllerCors {
+    @Autowired
+    private ReportRepository reportRepository;
+    @Autowired
+    private JobRepositary jobRepository;
+
     @CrossOrigin(origins = "*")
     @PostMapping("/oozie")
-    public ResponseEntity<List<Response>> list(@RequestPart("json") List<String> json) {
-        List<Response> result = new ArrayList<>();
+    public ResponseEntity<List<JobStatus>> list(@RequestPart("json") List<String> json) {
+        List<JobStatus> result = new ArrayList<>();
         try {
+            List<Report> reports = reportRepository.findAll();
+            for (int i = 0; i < reports.size(); i++) {
+                Report currentReport = reports.get(i);
+                List<JobOozie> jobs = (List<JobOozie>)currentReport.getJobNamesList();
+                for (int j = 0; j <jobs.size() ; j++) {
+                    JobOozie job = jobs.get(j);
+                    if(!job.getJobName().trim().equals("-")) {
+                        URL oozieUrl = new URL("http://d01dc-ctrl303.main.russianpost.ru:11000/oozie/v1/jobs?filter=user=hdfs;name="
+                                .concat(job.getJobName().trim()).concat("&offset=1&len=1"));
+                    }
+                    else{
+                        break;
+                    }
 
-            for (int i = 0; i <json.size() ; i++) {
-                String reportPath = json.get(i);
+                }
+
+
             }
-            URL url = new URL("http://d01dc-ctrl303.main.russianpost.ru:11000/oozie/v1/jobs?filter=user=hdfs;name=NDU-CVPP&offset=1&len=1");
-            URL url2 = new URL("http://d01dc-ctrl303.main.russianpost.ru:11000/oozie/v1/jobs?filter=user=hdfs;name=NDU-CVPP&offset=1&len=1");
+
+//            URL url = new URL("http://d01dc-ctrl303.main.russianpost.ru:11000/oozie/v1/jobs?filter=user=hdfs;name=NDU-bonus-KPI-2.6-Load-Upd&offset=1&len=1");
+//            URL url2 = new URL("http://d01dc-ctrl303.main.russianpost.ru:11000/oozie/v1/jobs?filter=user=hdfs;name=NDU-CVPP-Vertica-v2.1&offset=1&len=1");
+//            URL url3 = new URL("http://d01dc-ctrl303.main.russianpost.ru:11000/oozie/v1/jobs?filter=user=hdfs;name=NDU-NextDaysForecast-Vertica&offset=1&len=1");
             List<URL> urls = new ArrayList<>();
-            urls.add(url);
-            urls.add(url2);
-            HttpURLConnection conn = null;
+
             try {
                 for (int i = 0; i < urls.size(); i++) {
-                    conn = (HttpURLConnection)urls.get(i).openConnection();
+                    HttpURLConnection conn = (HttpURLConnection)urls.get(i).openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
                     if (conn.getResponseCode() != 200) {
@@ -46,7 +70,6 @@ public class StatusControllerCors {
                     }
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             (conn.getInputStream())));
-
                     StringBuilder sb = new StringBuilder();
                     for (String line; (line = br.readLine()) != null; sb.append(line));
                     String response = sb.toString();
@@ -57,45 +80,45 @@ public class StatusControllerCors {
                             String key = keyItr.next();
                             jsonObj.getString(key);
                             if (key.equals("workflows")) {
-                                try {
-                                    JSONObject workflow = new JSONObject(jsonObj.getString(key).substring(1, jsonObj.getString(key).length() -1));
-                                    Iterator<String> workfowItr = workflow.keys();
-                                    Response resp = new Response();
-                                    resp.setReportPath(urls.get(i).toString());
-                                    while (workfowItr.hasNext()) {
-                                        String flowkey = workfowItr.next();
-                                        switch (flowkey){
-                                            case "status":
-                                                resp.setStatus( workflow.getString(flowkey));
-                                                break;
-                                            case "appName":
-                                                resp.setAppName( workflow.getString(flowkey));
-                                                break;
-                                            case "createdTime":
-                                                resp.setCreatedTime( workflow.getString(flowkey));
-                                                break;
-                                            case "startTime":
-                                                resp.setStartTime( workflow.getString(flowkey));
-                                                break;
-                                            case "lastModTime":
-                                                resp.setLastModTime( workflow.getString(flowkey));
-                                                break;
-                                            case "endTime":
-                                                resp.setEndTime( workflow.getString(flowkey));
-                                                break;
-                                            case "consoleUrl":
-                                                resp.setConsoleUrl( workflow.getString(flowkey));
-                                                break;
-
+                                if(jsonObj.getString(key).contains("status")) {
+                                    try {
+                                        JSONObject workflow = new JSONObject(jsonObj.getString(key).substring(1, jsonObj.getString(key).length() - 1));
+                                        Iterator<String> workfowItr = workflow.keys();
+                                        JobStatus resp = new JobStatus();
+                                        resp.setReportPath(urls.get(i).toString());
+                                        while (workfowItr.hasNext()) {
+                                            String flowkey = workfowItr.next();
+                                            switch (flowkey) {
+                                                case "status":
+                                                    resp.setStatus(workflow.getString(flowkey));
+                                                    break;
+                                                case "appName":
+                                                    resp.setAppName(workflow.getString(flowkey));
+                                                    break;
+                                                case "createdTime":
+                                                    resp.setCreatedTime(workflow.getString(flowkey));
+                                                    break;
+                                                case "startTime":
+                                                    resp.setStartTime(workflow.getString(flowkey));
+                                                    break;
+                                                case "lastModTime":
+                                                    resp.setLastModTime(workflow.getString(flowkey));
+                                                    break;
+                                                case "endTime":
+                                                    resp.setEndTime(workflow.getString(flowkey));
+                                                    break;
+                                                case "consoleUrl":
+                                                    resp.setConsoleUrl(workflow.getString(flowkey));
+                                                    break;
+                                            }
                                         }
+                                        result.add(resp);
+                                        conn.disconnect();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        conn.disconnect();
                                     }
-                                    result.add(resp);
-                                    conn.disconnect();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    conn.disconnect();
                                 }
-
                             }
                         }
                     } catch (JSONException e) {
@@ -106,14 +129,12 @@ public class StatusControllerCors {
                 }
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
-            } finally {
-                conn.disconnect();
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
 

@@ -2,7 +2,7 @@ package ru.ooziejobstatus.models;
 
 import java.util.Objects;
 
-public class Response {
+public class JobStatus {
 
     private String reportPath;
     private String status;
@@ -13,7 +13,7 @@ public class Response {
     private String endTime;
     private String consoleUrl;
 
-    public Response() {
+    public JobStatus() {
     }
 
     public String getConsoleUrl() {
@@ -84,7 +84,7 @@ public class Response {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Response response = (Response)o;
+        JobStatus response = (JobStatus)o;
         return Objects.equals(reportPath, response.reportPath) &&
                 Objects.equals(status, response.status) &&
                 Objects.equals(appName, response.appName) &&

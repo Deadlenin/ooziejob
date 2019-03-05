@@ -16,7 +16,7 @@
     "url": "https://github.com/Deadlenin/ooziejob/issues"
   },
   "homepage": "https://github.com/Deadlenin/ooziejob#readme",
-  "dependencies":{
+  "dependencies": {
     "vue": "^2.6.8",
     "vue-resource": "^1.5.1"
   },
