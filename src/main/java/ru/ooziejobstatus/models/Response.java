@@ -3,9 +3,12 @@ package ru.ooziejobstatus.models;
 import java.util.List;
 import java.util.Objects;
 
-public class ReportsJobs {
+public class Response {
     private String reportPath;
-    private List<String> jobList;
+    private List<JobStatus> jobList;
+
+    public Response() {
+    }
 
     public String getReportPath() {
         return reportPath;
@@ -15,11 +18,15 @@ public class ReportsJobs {
         this.reportPath = reportPath;
     }
 
-    public List<String> getJobList() {
+    public List<JobStatus> getJobList() {
         return jobList;
     }
 
-    public void setJobList(List<String> jobList) {
+    public void addJob(JobStatus jobStatus) {
+        this.getJobList().add(jobStatus);
+    }
+
+    public void setJobList(List<JobStatus> jobList) {
         this.jobList = jobList;
     }
 
@@ -27,7 +34,7 @@ public class ReportsJobs {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReportsJobs that = (ReportsJobs)o;
+        Response that = (Response)o;
         return Objects.equals(reportPath, that.reportPath) &&
                 Objects.equals(jobList, that.jobList);
     }
