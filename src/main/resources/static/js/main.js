@@ -5,7 +5,6 @@ import store from './store/store'
 
 import '../scss/main.scss';
 
-
 new Vue({
     router,
     store,
