@@ -104,6 +104,7 @@ public class StatusControllerCors {
                                 }
                             }
                         } catch (JSONException e) {
+                            conn.disconnect();
                             e.printStackTrace();
                             return new ResponseEntity<>(responses, HttpStatus.INTERNAL_SERVER_ERROR);
                         }
