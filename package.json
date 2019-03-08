@@ -2,7 +2,7 @@
   "name": "ooziejob",
   "version": "1.0.0",
   "description": "get oozie job status",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "webpack-dev-server",
     "dev": " webpack --mode development",
@@ -26,6 +26,7 @@
     "clean-webpack-plugin": "^1.0.0",
     "css-loader": "^2.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "path": "^0.12.7",
     "sass-loader": "^7.1.0",

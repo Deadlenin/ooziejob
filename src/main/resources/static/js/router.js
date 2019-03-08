@@ -5,7 +5,6 @@ import EditJobMapping from './views/EditJobMapping.vue'
 import LoginPage from './views/LoginPage.vue'
 
 Vue.use(Router);
-
 export default new Router({
     routes : [
         {

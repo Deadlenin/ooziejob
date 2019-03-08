@@ -2,19 +2,35 @@ const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const src = 'src/main/resources/static';
+const src = '/src/main/resources/static';
+
+console.log("path.resolve(__dirname " ,path.join(__dirname) , src, '/dist');
+
 let conf = {
-    context: path.resolve(__dirname, src + '/js'),
+    context: path.join(__dirname, src , '/js'),
     entry: {
         uploading: './main.js',
     },
     output: {
-        path: path.resolve(__dirname, src + '/dist'),
+        path: path.join(__dirname, src + '/dist'),
+        publicPath: "dist/",
         filename: '[name].build.js',
     },
     optimization: {
         noEmitOnErrors: true,
+    },
+    watchOptions: {
+        poll: true
+    },
+    devServer: {
+        contentBase: path.join(__dirname , src +'/dist'),
+        compress: true,
+        //port: 8000,
+        allowedHosts:[
+            'localhost:8090'
+        ]
     },
     module: {
         rules: [
@@ -43,7 +59,12 @@ let conf = {
     plugins: [
         new CleanWebpackPlugin('dist', {}),
         new ExtractTextPlugin({ filename: '[name].build.css' }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'Custom template',
+            filename: 'index.html',
+            template:  path.join(__dirname , src +'/index.html'),
+        })
     ]
 };
 

@@ -1,16 +1,20 @@
 <template>
-    <div>
-        <header class="appHeader">
-            Тут Будет Меню
-        </header>
-        <div class="appContent">
+    <div class="pageContent">
+        <app-header></app-header>
+        <main class="appContent">
             <router-view/>
-        </div>
+        </main>
         <footer class="appFooter">
             Тут Будет футер
         </footer>
     </div>
 </template>
 <script>
+    import AppHeader from './components/AppHeader'
 
+    export default {
+        components: {
+            AppHeader
+        }
+    }
 </script>

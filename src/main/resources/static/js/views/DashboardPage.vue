@@ -7,7 +7,3 @@
         name: "DashboardPage"
     }
 </script>
-
-<style scoped>
-
-</style>

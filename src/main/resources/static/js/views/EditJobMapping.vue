@@ -7,7 +7,3 @@
         name: "EditJobMapping"
     }
 </script>
-
-<style scoped>
-
-</style>
