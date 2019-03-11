@@ -1,6 +1,7 @@
 <template>
     <header>
-        <div class="menuItem" v-for="(item, i) in menuItems" :key="`menuItems${i}`" :to="item.route">{{ item.title }}</div>
+
+        <router-link class="menuItem" v-for="(item, i) in menuItems" :key="`menuItems${i}`" :to="item.route">{{ item.title }}</router-link>
     </header>
 </template>
 
@@ -11,16 +12,18 @@
             menuItems(){
                 return[
                     {
-                        title:'Dashboard',
+                        title:'Редактировать mapping',
                         route:'/'
                     },
                     {
-                        title:'Редактировать mapping',
-                        route:'/EditJobMapping'
+                        title:'Dahsboard page',
+                        route:'/dashboards'
+                    },
+                    {
+                        title:'Выход',
+                        route:'/login'
                     }
-
                 ]
-
             }
         }
     }

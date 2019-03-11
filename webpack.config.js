@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const src = '/src/main/resources/static';
 
-console.log("path.resolve(__dirname " ,path.join(__dirname) , src, '/dist');
+console.log("path.resolve(__dirname " ,path.join(__dirname) ,src, '/dist');
 
 let conf = {
     context: path.join(__dirname, src , '/js'),
@@ -27,7 +27,8 @@ let conf = {
     devServer: {
         contentBase: path.join(__dirname , src +'/dist'),
         compress: true,
-        //port: 8000,
+        port: 8000,
+        historyApiFallback: true,
         allowedHosts:[
             'localhost:8090'
         ]

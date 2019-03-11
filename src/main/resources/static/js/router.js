@@ -1,27 +1,27 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import DashboardPage from './views/DashboardPage.vue'
 import EditJobMapping from './views/EditJobMapping.vue'
 import LoginPage from './views/LoginPage.vue'
 
-Vue.use(Router);
-export default new Router({
-    routes : [
-        {
-            path: '/',
-            name: "DashboardPage",
-            component: DashboardPage,
-        },
-        {
-            path: '/EditJobMapping',
-            name: "EditJobMapping",
-            component: EditJobMapping,
-        },
-        {
-            path: '/LoginPage',
-            name: "LoginPage",
-            component: LoginPage,
-        }
-    ],
+let routes = [
+    {
+        path: '/',
+        component: EditJobMapping,
+    },
+    {
+        path: '/dashboards',
+        component: DashboardPage,
+    },
+    {
+        path: '/login',
+        name: "LoginPage",
+        component: LoginPage,
+    }
+];
+
+Vue.use(VueRouter);
+export default new VueRouter({
+    routes : routes,
     mode: 'history'
 })

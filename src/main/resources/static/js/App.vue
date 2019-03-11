@@ -1,14 +1,19 @@
 <template>
     <div class="pageContent">
         <app-header></app-header>
+
         <main class="appContent">
-            <router-view/>
+            <div class="mainContent">
+                <router-view></router-view>
+            </div>
         </main>
+
         <footer class="appFooter">
-            Тут Будет футер
+            Тут будет футер
         </footer>
     </div>
 </template>
+
 <script>
     import AppHeader from './components/AppHeader'
 
