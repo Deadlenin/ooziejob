@@ -11,9 +11,43 @@ public class JobStatus {
     private String startTime;
     private String lastModTime;
     private String endTime;
+    private String jobType;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JobStatus jobStatus = (JobStatus)o;
+        return Objects.equals(reportPath, jobStatus.reportPath) &&
+                Objects.equals(status, jobStatus.status) &&
+                Objects.equals(appName, jobStatus.appName) &&
+                Objects.equals(createdTime, jobStatus.createdTime) &&
+                Objects.equals(startTime, jobStatus.startTime) &&
+                Objects.equals(lastModTime, jobStatus.lastModTime) &&
+                Objects.equals(endTime, jobStatus.endTime) &&
+                Objects.equals(consoleUrl, jobStatus.consoleUrl) &&
+                Objects.equals(jobType, jobStatus.jobType);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(reportPath, status, appName, createdTime, startTime, lastModTime, endTime, consoleUrl, jobType);
+    }
+
     private String consoleUrl;
 
+
+
     public JobStatus() {
+    }
+
+    public String getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
     }
 
     public String getConsoleUrl() {
@@ -78,26 +112,6 @@ public class JobStatus {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        JobStatus response = (JobStatus)o;
-        return Objects.equals(reportPath, response.reportPath) &&
-                Objects.equals(status, response.status) &&
-                Objects.equals(appName, response.appName) &&
-                Objects.equals(createdTime, response.createdTime) &&
-                Objects.equals(startTime, response.startTime) &&
-                Objects.equals(lastModTime, response.lastModTime) &&
-                Objects.equals(endTime, response.endTime) &&
-                Objects.equals(consoleUrl, response.consoleUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(reportPath, status, appName, createdTime, startTime, lastModTime, endTime);
     }
 
 }

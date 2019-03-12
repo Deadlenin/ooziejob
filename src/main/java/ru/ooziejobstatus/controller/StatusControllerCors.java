@@ -113,14 +113,20 @@ public class StatusControllerCors {
                         jobList.add(jobStatus);
                         continue;
                     }
-                    if (jobStatus.getStatus() != null && job.getJobType().equals("load")) {
-                        jobList.add(jobStatus);
+                    if (jobStatus.getStatus() != null ) {
+                        if(job.getJobType().trim().equals("load")) {
+                            jobStatus.setJobType("load");
+                            jobList.add(jobStatus);
+                        }
+                        else if(job.getJobType().trim().equals("build")){
+                            jobStatus.setJobType("build");
+                            jobList.add(jobStatus);
+                        }
                     }
                 }// end of jobs
                 respItem.setJobList(jobList);
                 responses.add(respItem);
             }// end of reports
-
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>(responses, HttpStatus.INTERNAL_SERVER_ERROR);
