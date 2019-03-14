@@ -1,5 +1,6 @@
 <template>
-    <div>Edit mapping page
+    <div class="mapping-part">
+        <div class="page-title">Список отчетов</div>
         <mapping-component></mapping-component>
     </div>
 </template>

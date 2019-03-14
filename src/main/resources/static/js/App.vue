@@ -3,7 +3,7 @@
         <app-header></app-header>
 
         <main class="appContent">
-            <div class="mainContent">
+            <div class="main-content">
                 <router-view></router-view>
             </div>
         </main>
