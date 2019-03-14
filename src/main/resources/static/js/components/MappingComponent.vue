@@ -1,5 +1,5 @@
 <template>
-    <div class="mappingContent">
+    <div class="mapping-content">
         <div title="добавить mapping" class="new-item"><div>добавить mapping</div></div>
         <div class="reports-container">
         <report-item v-for="report in reports"
