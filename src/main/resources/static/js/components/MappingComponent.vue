@@ -1,35 +1,45 @@
 <template>
     <div class="mapping-content">
-        <div title="добавить mapping" class="new-item"><div>добавить mapping</div></div>
-        <div class="reports-container">
-        <report-item v-for="report in reports"
-                     :key="report.id"
-                     :reportName="report.reportName"
-                     :reportId="report.id"
-        ></report-item>
-
+        <div title="добавить mapping" @click="addMapping" class="new-item">
+            <div>добавить mapping</div>
         </div>
-
-
+        <div class="reports-container">
+            <report-item v-for="report in reports"
+                         :key="report.id"
+                         :reportName="report.reportName"
+                         :reportId="report.id"
+            ></report-item>
+        </div>
+        <div v-if="addEditComponentsVisible">
+            <add-edit-component></add-edit-component>
+        </div>
     </div>
 </template>
 
 <script>
-    import ReportItem from './ReportItem.vue'
-    import {mapGetters} from 'vuex';
+    import ReportItem       from './ReportItem.vue'
+    import AddEditComponent from './AddEditComponent.vue'
+    import { mapGetters }   from 'vuex';
 
     export default {
         name: "MappingComponent",
         components: {
-            ReportItem
+            ReportItem,
+            AddEditComponent
         },
         computed: {
-            ...mapGetters({
+            ...mapGetters( {
                 reports: 'reports',
-            }),
+                addEditComponentsVisible: 'addEditComponentsVisible',
+            } ),
         },
-        created() {
-            this.$store.dispatch('getReports');
+        methods: {
+            addMapping(){
+                this.$store.dispatch( 'setAddEditComponentsVisible', true );
+            }
+        },
+        created(){
+            this.$store.dispatch( 'getReports' );
         },
 
     }

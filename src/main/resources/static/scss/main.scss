@@ -46,6 +46,9 @@ html, body {
   line-height: 30px;
 }
 
+.active{
+  background: #000092;
+}
 .pageContent {
   display: flex;
   flex-direction: column;
@@ -69,8 +72,8 @@ header {
   vertical-align: middle;
   padding: 0 15px 0 15px;
   line-height: 40px;
-  &:hover {
-   background: #2fa72c;
+  &:hover:not(.active) {
+   background: #0000bd;
   }
 }
 
@@ -85,6 +88,9 @@ header {
   margin: auto;
   background: #fff;
   overflow: hidden;
+}
+.main-btn{
+
 }
 
 footer {

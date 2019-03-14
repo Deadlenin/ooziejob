@@ -2,11 +2,15 @@ import getData from "../../ajax";
 
 export default {
     state: {
-        reports: []
+        reports: [],
+        addEditComponentsVisible: false
     },
     getters: {
         reports(state) {
             return state.reports;
+        },
+        addEditComponentsVisible(state) {
+            return state.addEditComponentsVisible;
         }
     },
     actions: {
@@ -24,11 +28,17 @@ export default {
                 commit('setProcessing', false);
                 console.log('при получении списка репортов произошла ошибка');
             });
+        },
+        setAddEditComponentsVisible({commit}, visible){
+            commit('setVisible', visible);
         }
     },
     mutations: {
         setReports(state, payload) {
             state.reports = payload;
+        },
+        setVisible(state, payload){
+            state.addEditComponentsVisible = payload;
         }
     }
 };

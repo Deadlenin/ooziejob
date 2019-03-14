@@ -1,7 +1,7 @@
 <template>
     <header>
 
-        <router-link class="menuItem" v-for="(item, i) in menuItems" :key="`menuItems${i}`" :to="item.route">{{ item.title }}</router-link>
+        <router-link class="menuItem" active-class="active" exact v-for="(item, i) in menuItems" :key="`menuItems${i}`" :to="item.route">{{ item.title }}</router-link>
     </header>
 </template>
 
