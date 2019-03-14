@@ -101,9 +101,34 @@ $border-radius: 5px;
   position: absolute;
   top:50%;
   left: 50%;
-  margin-top: -175px;
+  margin-top: -200px;
   margin-left: -300px;
   z-index: 110;
   background: #ffffff;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+
+  .main-form-content{
+    height: 270px;
+  }
+
+  .caption{
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .buttons-part {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: right;
+    padding-right: 10px;
+  }
+
 
 }

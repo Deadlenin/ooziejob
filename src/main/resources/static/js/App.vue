@@ -11,15 +11,25 @@
         <footer class="appFooter">
             Тут будет футер
         </footer>
+        <div v-if="getConfirmDialogVisible">
+            <confirm-dialog></confirm-dialog>
+        </div>
     </div>
 </template>
 
 <script>
     import AppHeader from './components/AppHeader'
-
+    import ConfirmDialog from './components/ConfirmDialog'
+    import { mapGetters }   from 'vuex';
     export default {
         components: {
-            AppHeader
-        }
+            AppHeader,
+            ConfirmDialog
+        },
+        computed: {
+            ...mapGetters( {
+                getConfirmDialogVisible: 'getConfirmDialogVisible',
+            } ),
+        },
     }
 </script>

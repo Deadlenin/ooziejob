@@ -24,5 +24,4 @@ function getData(settings) {
         xhr.send( data );
     } );
 }
-
 export default getData;

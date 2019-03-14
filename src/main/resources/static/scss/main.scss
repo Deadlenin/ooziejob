@@ -90,7 +90,15 @@ header {
   overflow: hidden;
 }
 .main-btn{
-
+  padding: 5px 10px;
+  outline: none;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 3px 0 3px;
+  &:hover:not(.active) {
+    @extend %btn-hoovered;
+  }
 }
 
 footer {
