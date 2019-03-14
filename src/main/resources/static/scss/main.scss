@@ -3,6 +3,14 @@
 $main-font-family: Helvetica, sans-serif;
 $main-font-size: 15px;
 
+%btn-hoovered {
+  cursor: pointer;
+  box-shadow: 0 0 5px #dadada;
+  background-color: #f2f2f2;
+  background-image: -webkit-linear-gradient(#fff, #f2f2f2);
+  background-image: linear-gradient(#fff, #f2f2f2);
+}
+
 html, body {
   height: 100%;
   width: 100%;
@@ -32,9 +40,10 @@ html, body {
   box-sizing: border-box;
 }
 
-a{
-  color: black;
+.menuItem{
   text-decoration: none;
+  vertical-align: middle;
+  line-height: 30px;
 }
 
 .pageContent {
@@ -48,15 +57,21 @@ a{
 }
 
 header {
-  padding: 15px;
+  height: 40px;
   background: #4a76a8;
 }
 .menuItem{
   cursor: pointer;
-  margin: 0 20px 0 0;
-  align-items: center;
   color: #fff;
-
+  height: 100%;
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 15px 0 15px;
+  line-height: 40px;
+  &:hover {
+   background: #2fa72c;
+  }
 }
 
 .appContent {
@@ -73,7 +88,6 @@ header {
 }
 
 footer {
-  height: 25px;
   padding-right: 10px;
   text-align: right;
 }
