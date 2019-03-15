@@ -11,7 +11,7 @@ public class JobStatus {
     private String startTime;
     private String lastModTime;
     private String endTime;
-    private String jobType;
+    private Integer jobType;
 
     @Override
     public boolean equals(Object o) {
@@ -42,11 +42,11 @@ public class JobStatus {
     public JobStatus() {
     }
 
-    public String getJobType() {
+    public Integer getJobType() {
         return jobType;
     }
 
-    public void setJobType(String jobType) {
+    public void setJobType(Integer jobType) {
         this.jobType = jobType;
     }
 

@@ -16,13 +16,13 @@ public class JobOozie {
     @Column(name = "job_name")
     private String JobName;
 
-    public void setJobType(String jobType) {
+    public void setJobType(Integer jobType) {
         JobType = jobType;
     }
 
     @Basic
     @Column(name = "job_type")
-    private String JobType;
+    private Integer JobType;
 
 
     public Long getId() {
@@ -41,7 +41,7 @@ public class JobOozie {
         this.JobName = jobName;
     }
 
-    public String getJobType() {
+    public Integer getJobType() {
         return JobType;
     }
 

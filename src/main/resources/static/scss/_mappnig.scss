@@ -1,3 +1,6 @@
+$border: 1px solid #ccc;
+$border-radius: 5px;
+
 %btn-hoovered {
   cursor: pointer;
   box-shadow: 0 0 5px #dadada;
@@ -6,8 +9,21 @@
   background-image: linear-gradient(#fff, #f2f2f2);
 }
 
-$border: 1px solid #ccc;
-$border-radius: 5px;
+%btn-hoovered-green {
+  cursor: pointer;
+  box-shadow: 0 0 5px #46bf12;
+  background-color: #f2f2f2;
+  background-image: -webkit-linear-gradient(#fff, #46bf12);
+  background-image: linear-gradient(#fff, #46bf12);
+}
+
+%main-border {
+  box-shadow: 0 0 5px #dadada;
+  border: $border;
+  border-radius: $border-radius;
+  background-image: -webkit-linear-gradient(#fff, #f2f2f2);
+  background-image: linear-gradient(#fff, #f2f2f2);
+}
 
 .page-title {
   text-align: center;
@@ -15,14 +31,15 @@ $border-radius: 5px;
   vertical-align: middle;
   line-height: 50px;
 }
-.mapping-part{
+
+.mapping-part {
   height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.mapping-content{
+.mapping-content {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -33,20 +50,22 @@ $border-radius: 5px;
   margin: 0 auto 10px;
 }
 
-.new-item div{
+.new-item div {
   padding: 5px 40px 5px 40px;
   border: $border;
   border-radius: $border-radius;
   justify-content: center;
   display: flex;
+
   &:hover {
     @extend %btn-hoovered;
   }
 }
 
-.reports-container{
+.reports-container {
   overflow: auto;
 }
+
 .report-item-content {
   display: flex;
   margin: 5px 0 5px 0;
@@ -54,17 +73,15 @@ $border-radius: 5px;
   font-size: 14px;
 }
 
-
-
 .delReport {
   padding: 5px 10px 5px 10px;
   border: 1px solid #ccc;
   border-radius: 5px 0 0 5px;
   border-right: none;
+
   &:hover {
     @extend %btn-hoovered;
   }
-
 }
 
 .reportName {
@@ -78,28 +95,29 @@ $border-radius: 5px;
   border: 1px solid #ccc;
   border-radius: 0 5px 5px 0;
   border-left: none;
+
   &:hover {
     @extend %btn-hoovered;
   }
 }
 
-.background{
+.background {
   position: absolute;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: #000;
   opacity: 0.5;
   z-index: 100;
 }
-.add-edit-component{
+
+.add-edit-component {
   width: 600px;
   height: 350px;
-  border: $border;
   border-radius: $border-radius;
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 50%;
   margin-top: -200px;
   margin-left: -300px;
@@ -108,15 +126,108 @@ $border-radius: 5px;
   opacity: 1;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
 
-  .main-form-content{
-    height: 270px;
-  }
-
-  .caption{
+  .caption {
     width: 100%;
     text-align: center;
     padding: 10px;
+    background: #4a76a8;
+    border-radius: 4px 4px 0 0;
+    color: #fff;
+    font-size: 16px;
+
+  }
+
+  .main-form-content {
+    height: 270px;
+    padding: 6px 10px 0 10px;
+
+
+    .report-input {
+      width: 100%;
+      height: 30px;
+      outline: none;
+      border: $border;
+      padding: 0 5px;
+      border-radius: $border-radius;
+    }
+
+    .job-caption {
+      margin-bottom: 3px;
+    }
+
+    .jobs {
+      height: 203px;
+      overflow: auto;
+
+    }
+
+    .select-job {
+      border: $border;
+      border-radius: $border-radius;
+      height: 30px;
+      outline: none;
+      padding-left: 5px;
+      margin-left: 7px;
+      font-size: 15px;
+    }
+    option{
+      border-radius: $border-radius;
+    }
+
+    .job-item {
+      display: flex;
+      height: 34px;
+      flex-direction: row;
+      margin-bottom: 15px;
+
+      .job-input {
+        width: 360px;
+        height: 30px;
+        font-size: 15px;
+        outline: none;
+        border: $border;
+        padding: 0 5px;
+        border-radius: $border-radius;
+      }
+
+      .job-type {
+        margin: 0 6px;
+      }
+
+      input[type="radio"] {
+        display: inherit;
+        margin: 4px auto;
+        transform: scale(1.3);
+      }
+
+      .r-button {
+        display: flex;
+        margin-left: 15px;
+        height: 30px;
+      }
+
+      .block-label {
+        display: block;
+        font-size: 12px;
+        padding: 0;
+      }
+
+      .add-btn {
+        border: $border;
+        border-radius: $border-radius;
+        padding: 0px 15px;
+        outline: none;
+        margin-left: 7px;
+        background: #fff;
+        height: 31px;
+
+        &:hover:not([disabled]) {
+          @extend %btn-hoovered-green;
+        }
+      }
+    }
   }
 
   .buttons-part {
@@ -127,7 +238,7 @@ $border-radius: 5px;
     line-height: 40px;
     vertical-align: middle;
     text-align: right;
-    padding-right: 10px;
+    padding-right: 7px;
   }
 
 

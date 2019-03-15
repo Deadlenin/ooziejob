@@ -67,7 +67,6 @@ header {
   cursor: pointer;
   color: #fff;
   height: 100%;
-  margin-left: 20px;
   display: inline-block;
   vertical-align: middle;
   padding: 0 15px 0 15px;
@@ -80,7 +79,6 @@ header {
 .appContent {
   flex: auto;
   overflow: hidden;
-
 }
 .main-content{
   height: 100%;
@@ -88,6 +86,11 @@ header {
   margin: auto;
   background: #fff;
   overflow: hidden;
+}
+
+.block-label{
+  display: block;
+  padding: 3px 0;
 }
 .main-btn{
   padding: 5px 10px;

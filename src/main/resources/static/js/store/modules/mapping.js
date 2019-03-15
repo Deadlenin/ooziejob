@@ -3,7 +3,9 @@ import getData from "../../ajax";
 export default {
     state: {
         reports: [],
-        addEditComponentsVisible: false
+        addEditComponentsVisible: true,
+        jobItems: [],
+        reportName: ''
     },
     getters: {
         reports(state) {
@@ -11,10 +13,12 @@ export default {
         },
         addEditComponentsVisible(state) {
             return state.addEditComponentsVisible;
-        }
+        },
+        jobItems: (state) => state.jobItems,
+        reportName: (state) => state.reportName
     },
     actions: {
-        getReports({commit, dispatch }, searchObj) {
+        getReports({commit, dispatch}, searchObj) {
             commit('setProcessing', true);
             let settings = {
                 url: "http://localhost:8090/",
@@ -29,7 +33,7 @@ export default {
                 console.log('при получении списка репортов произошла ошибка');
             });
         },
-        setAddEditComponentsVisible({commit}, visible){
+        setAddEditComponentsVisible({commit}, visible) {
             commit('setVisible', visible);
         }
     },
@@ -37,8 +41,20 @@ export default {
         setReports(state, payload) {
             state.reports = payload;
         },
-        setVisible(state, payload){
+        setVisible(state, payload) {
             state.addEditComponentsVisible = payload;
+        },
+        addJob(state, payload) {
+            state.jobItems.push(payload);
+        },
+        addReportName(state, payload) {
+            state.reportName = payload;
+        }
+        ,
+        cleanJobs(state) {
+            state.jobItems.length = 0;
+            state.reportName = '';
         }
     }
-};
+}
+;

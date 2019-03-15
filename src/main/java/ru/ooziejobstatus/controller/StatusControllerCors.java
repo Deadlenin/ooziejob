@@ -114,12 +114,12 @@ public class StatusControllerCors {
                         continue;
                     }
                     if (jobStatus.getStatus() != null ) {
-                        if(job.getJobType().trim().equals("load")) {
-                            jobStatus.setJobType("load");
+                        if(job.getJobType() == 2) {
+                            jobStatus.setJobType(2);
                             jobList.add(jobStatus);
                         }
-                        else if(job.getJobType().trim().equals("build")){
-                            jobStatus.setJobType("build");
+                        else if(job.getJobType() == 1){
+                            jobStatus.setJobType(1);
                             jobList.add(jobStatus);
                         }
                     }
