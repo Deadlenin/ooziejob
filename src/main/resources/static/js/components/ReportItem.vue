@@ -1,8 +1,8 @@
 <template>
     <div :id="id" :peropt-path="reportName" class="report-item-content">
-        <div class="delReport">Удалить</div>
+        <div :report-id="id" class="delReport">Удалить</div>
         <div class="reportName">{{name}}</div>
-        <div  class="editReport">Редактировать</div>
+        <div :report-id="id" class="editReport" @click="getReportById(id)">Редактировать</div>
     </div>
 </template>
 
@@ -19,13 +19,19 @@
                 required: true
             },
         },
-        computed:{
-            name(){
+        computed: {
+            name() {
                 let name = this.reportName.split('/home/reports/')[1];
                 return name
             },
-            id(){
+            id() {
                 return this.reportId
+            }
+        },
+        methods: {
+            getReportById(elId) {
+                if (!isNaN(parseInt(elId)))
+                    this.$store.dispatch('getReportById', parseInt(elId));
             }
         }
     }

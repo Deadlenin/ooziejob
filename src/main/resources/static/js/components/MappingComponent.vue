@@ -35,8 +35,9 @@
         },
         methods: {
             addMapping(){
-                this.$store.dispatch( 'setAddEditComponentsVisible', true );
-            }
+                this.$store.dispatch( 'setAddEditComponentsVisible', {visible:true, mode:'add'});
+            },
+
         },
         created(){
             this.$store.dispatch( 'getReports' );

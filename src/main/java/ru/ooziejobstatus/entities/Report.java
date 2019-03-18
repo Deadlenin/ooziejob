@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +20,12 @@ public class Report implements Serializable {
     @Column(name = "report_path")
     private String ReportPath;
 
+    @OneToMany(mappedBy = "report",
+            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<JobOozie> JobNamesList;
+    private Report report;
+
+
     public Long getId() {
         return id;
     }
@@ -26,6 +33,14 @@ public class Report implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    public void setReport(Report reportByIdReport) {
+        this.report = reportByIdReport;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
 
     public String getReportPath() {
         return ReportPath;
@@ -35,17 +50,13 @@ public class Report implements Serializable {
         ReportPath = reportPath.trim();
     }
 
-    @OneToMany(mappedBy = "report",
-            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Collection<JobOozie> JobNamesList;
-
-    public Collection<JobOozie> getJobNamesList() {
+    public List<JobOozie> getJobNamesList() {
         if (JobNamesList == null)
             JobNamesList = new ArrayList<>();
         return JobNamesList;
     }
 
-    public void setJobNamesList(Collection<JobOozie> JobNamesList) {
+    public void setJobNamesList(List<JobOozie> JobNamesList) {
         this.JobNamesList = JobNamesList;
     }
 

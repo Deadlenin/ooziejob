@@ -1,5 +1,7 @@
 package ru.ooziejobstatus.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -53,6 +55,7 @@ public class JobOozie {
         this.report = report;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_report_pentaho", referencedColumnName = "id")
     private Report report;
