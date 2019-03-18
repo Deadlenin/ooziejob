@@ -9,77 +9,76 @@ export default {
         reportName: ''
     },
     getters: {
-        reports(state) {
+        reports( state ){
             return state.reports;
         },
-        addEditComponentsVisible(state) {
+        addEditComponentsVisible( state ){
             return state.addEditComponentsVisible;
         },
-        jobItems: (state) => state.jobItems,
-        getReportName: (state) =>{
+        jobItems: ( state ) => state.jobItems,
+        getReportName: ( state ) => {
             return state.reportName
         },
-
-        AddEditMode: (state) => state.AddEditMode
+        AddEditMode: ( state ) => {
+            return state.AddEditMode
+        }
     },
     actions: {
-        getReports({commit, dispatch}, searchObj) {
-            commit('setProcessing', true);
+        getReports( { commit, dispatch }, searchObj ){
+            commit( 'setProcessing', true );
             let settings = {
                 url: "http://localhost:8090/",
                 method: 'GET',
                 responseType: 'json',
             };
-            getData(settings).then(result => {
-                commit('setProcessing', false);
-                commit('setReports', result);
-            }).catch(e => {
-                commit('setProcessing', false);
-                console.log('при получении списка репортов произошла ошибка');
-            });
+            getData( settings ).then( result => {
+                commit( 'setProcessing', false );
+                commit( 'setReports', result );
+            } ).catch( e => {
+                commit( 'setProcessing', false );
+                console.log( 'при получении списка репортов произошла ошибка' );
+            } );
         },
-        getReportById({commit, dispatch}, id) {
-            commit('setProcessing', true);
+        getReportById( { commit, dispatch }, id ){
+            commit( 'setProcessing', true );
+            commit( 'setVisible', { visible: true, mode: 'edit' } );
             let settings = {
                 url: "http://localhost:8090/get?id=" + id,
                 method: 'GET',
                 responseType: 'json',
             };
-            getData(settings).then(result => {
-                console.log(result);
-                commit('setProcessing', false);
-                commit('setReportData', result);
-            }).catch(e => {
-                commit('setProcessing', false);
-                console.log('при получении списка репортов произошла ошибка');
-            });
+            getData( settings ).then( result => {
+                console.log( result );
+                commit( 'setProcessing', false );
+                commit( 'setReportData', result );
+            } ).catch( e => {
+                commit( 'setProcessing', false );
+                console.log( 'при отчета произошла ошибка' );
+            } );
         },
-        setAddEditComponentsVisible({commit}, settings) {
-            commit('setVisible', settings);
+        setAddEditComponentsVisible( { commit }, settings ){
+            commit( 'setVisible', settings );
         }
     },
     mutations: {
-        setReports(state, payload) {
+        setReports( state, payload ){
             state.reports = payload;
         },
-        setVisible(state, payload) {
+        setVisible( state, payload ){
             state.addEditComponentsVisible = payload.visible;
             state.AddEditMode = payload.mode;
         },
-        addJob(state, payload) {
-            state.jobItems.push(payload);
+        addJob( state, payload ){
+            state.jobItems.push( payload );
         },
-        addReportName(state, payload) {
+        addReportName( state, payload ){
             state.reportName = payload;
         },
-        setReportData(state, payload) {
+        setReportData( state, payload ){
             state.reportName = payload.reportName;
             state.jobItems = payload.jobs;
-            state.addEditComponentsVisible = true;
-            state.AddEditMode = 'edit';
-        }
-        ,
-        cleanJobs(state) {
+        },
+        cleanJobs( state ){
             state.jobItems.length = 0;
             state.reportName = '';
             state.AddEditMode = null;

@@ -14,7 +14,12 @@
                     <div class="job-caption">
                         Список job'ов
                     </div>
+                    <div v-if="!addMode">
                     <job-item v-for="(item, i) in jobItems" :key="i" :jobItem="item"></job-item>
+                    </div>
+                    <div v-else>
+                        <job-item :key="1" :jobItem="item"></job-item>
+                    </div>
                 </div>
             </div>
             <div class="buttons-part">
@@ -53,32 +58,35 @@
             },
             captionText() {
                 return this.AddEditMode === 'add' ? 'Добавить новый mapping' : 'Редактировать mapping';
+            },
+            addMode(){
+                return this.AddEditMode === 'add';
             }
         },
-        // watch:{
-        //     getReportName(newVal, oldVal){
-        //         this.reportName = newVal;
-        //     },
-        // },
+        watch:{
+            getReportName(newVal, oldVal){
+                this.reportName = newVal;
+            },
+        },
         // mounted(){
         //     this.$store.watch(
-        //         (state, getters) => getters.getReportName,
+        //         (state, getters) => state.mappingModule.reportName,
         //         (newVal, oldVal) => {
         //             this.reportName = newVal;
         //         }
         //     )
         // },
-        mounted(){
-            this.$store.subscribe(((mutation, state )=> {
-                switch (mutation.type) {
-                    case 'setReportData':{
-                        console.log(state);
-                        this.reportName = state.mappingModule.reportName;
-                    }
-                    break;
-                }
-            }))
-        },
+        // mounted(){
+        //     this.$store.subscribe(((mutation, state )=> {
+        //         switch (mutation.type) {
+        //             case 'setReportData':{
+        //                 console.log(state);
+        //                 this.reportName = state.mappingModule.reportName;
+        //             }
+        //             break;
+        //         }
+        //     }))
+        // },
         methods: {
             closeDialog() {
                 this.$store.dispatch('setAddEditComponentsVisible', {visible: false, mode: null});
@@ -87,8 +95,5 @@
         beforeDestroy() {
             this.$store.commit('cleanJobs');
         },
-        created() {
-            //this.$store.commit('addJob', null);
-        }
     }
 </script>
