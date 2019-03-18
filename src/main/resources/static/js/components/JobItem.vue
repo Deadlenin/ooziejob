@@ -8,7 +8,7 @@
             <option  value="3">Load</option>
         </select>
 
-        <button :disabled="!isDisabled" title="Добавить" class="add-btn" @click="addJob">+</button>
+        <button :disabled="isDisabled" title="Добавить" class="add-btn" @click="addJob">+</button>
         <button :disabled="isDisabled" title="Удалить" class="add-btn" @click="removeJob">-</button>
     </div>
 </template>
@@ -28,21 +28,32 @@
         },
         data() {
             return {
-                jobType: null
+                //jobType: null
             }
         },
         computed: {
             jobId() {
                 return this.jobItem !== undefined ? `job_id_${this.jobItem.id}`: `job_id_0`;
             },
-            jobName(){
-                if(this.jobItem) {
-                    return this.jobItem.jobName;
+            jobName:{
+                get(){
+                    if( this.jobItem ){
+
+                        return this.jobItem.jobName;
+                    }
+                },
+                set(){
+
                 }
             },
-            jobType(){
-                if(this.jobItem) {
-                    return this.jobItem.jobType;
+            jobType:{
+                get() {
+                    if(this.jobItem){
+                        return this.jobItem.jobType;
+                    }
+                },
+                set(value) {
+                    //this.jobType = value;
                 }
             },
             isDisabled() {
@@ -53,8 +64,10 @@
             }
         },
         mounted(){
-            let selElement = document.getElementById(this.jobId);
-            selElement.getElementsByTagName('option')[this.jobItem.jobType+1].selected = true;
+            if(this.jobItem){
+                let selElement = document.getElementById( this.jobId );
+                selElement.getElementsByTagName( 'option' )[this.jobItem.jobType + 1].selected = true;
+            }
 
         },
         methods: {

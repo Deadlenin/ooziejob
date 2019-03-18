@@ -18,7 +18,7 @@
                     <job-item v-for="(item, i) in jobItems" :key="i" :jobItem="item"></job-item>
                     </div>
                     <div v-else>
-                        <job-item :key="1" :jobItem="item"></job-item>
+                        <job-item :key="1" ></job-item>
                     </div>
                 </div>
             </div>
