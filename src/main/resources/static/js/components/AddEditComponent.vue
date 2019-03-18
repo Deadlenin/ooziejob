@@ -43,7 +43,7 @@
             ...mapGetters({
                 jobItems: 'jobItems',
                 AddEditMode: 'AddEditMode',
-                rName:'getReportName'
+                getReportName:'getReportName'
             }),
             reportNameExist() {
                 return this.reportName.length > 2
@@ -55,10 +55,29 @@
                 return this.AddEditMode === 'add' ? 'Добавить новый mapping' : 'Редактировать mapping';
             }
         },
-        watch:{
-            rName(newVal){
-                this.reportName = newVal;
-            },
+        // watch:{
+        //     getReportName(newVal, oldVal){
+        //         this.reportName = newVal;
+        //     },
+        // },
+        // mounted(){
+        //     this.$store.watch(
+        //         (state, getters) => getters.getReportName,
+        //         (newVal, oldVal) => {
+        //             this.reportName = newVal;
+        //         }
+        //     )
+        // },
+        mounted(){
+            this.$store.subscribe(((mutation, state )=> {
+                switch (mutation.type) {
+                    case 'setReportData':{
+                        console.log(state);
+                        this.reportName = state.mappingModule.reportName;
+                    }
+                    break;
+                }
+            }))
         },
         methods: {
             closeDialog() {
