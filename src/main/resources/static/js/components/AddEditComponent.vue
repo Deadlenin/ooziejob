@@ -15,7 +15,7 @@
                         Список job'ов
                     </div>
                     <div v-if="!addMode">
-                        <job-item v-for="(item, i) in jobItems" :key="i" :jobItem="item"></job-item>
+                        <job-item v-for="(item, i) in jobItems" :key="i" :index="item.id" :jobItem="item"></job-item>
                     </div>
                     <div v-else>
                         <job-item v-for="(item, i) in newJobItems" :key="i" :index="i+1" :jobItem="item"></job-item>
@@ -94,13 +94,13 @@
                 this.setAddEditComponentsVisible( {visible: false, mode: null});
             },
             addJob() {
-                if (this.AddJobEnable) {
+                //if (this.AddJobEnable) {
                     if (this.AddEditMode === 'add') {
                         this.$store.commit('addNewJob');
                     } else if (this.AddEditMode === 'edit') {
                         this.$store.commit('addJob');
                     }
-                }
+                //}
             },
         },
         beforeDestroy() {

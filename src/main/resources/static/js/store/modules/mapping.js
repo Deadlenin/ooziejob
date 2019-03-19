@@ -74,7 +74,8 @@ export default {
             state.AddEditMode = payload.mode;
         },
         addJob(state, payload) {
-            state.jobItems.push(payload);
+            let nextIndex = state.jobItems[state.jobItems.length - 1].id + 1;
+            state.jobItems.push({id: nextIndex});
         },
         setJobName(state, payload) {
             let jobs = state.newJobItems;
