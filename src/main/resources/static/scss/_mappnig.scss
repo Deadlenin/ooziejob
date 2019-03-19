@@ -57,7 +57,7 @@ $border-radius: 5px;
   justify-content: center;
   display: flex;
 
-  &:hover {
+  &:hover:not([disabled]) {
     @extend %btn-hoovered;
   }
 }
@@ -241,5 +241,9 @@ $border-radius: 5px;
   }
   .main-btn[disabled]{
     cursor: default !important;
+  }
+  .main-btn.left-button{
+    margin-left: 9px;
+    float: left;
   }
 }

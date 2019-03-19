@@ -1,89 +1,119 @@
 <template>
     <div class="job-item">
         <input class="job-input" v-model="jobName" placeholder="Введите имя job'а" type="text">
-        <select class="select-job" :id="jobId" @change="typeChange" name="job-type" >
+        <select class="select-job" :id="jobId" @change="typeChange" name="job-type">
             <option value="" disabled selected>Выберите тип job'a</option>
-            <option  value="1">Streaming</option>
-            <option  value="2">Build</option>
-            <option  value="3">Load</option>
+            <option value="1">Streaming</option>
+            <option value="2">Build</option>
+            <option value="3">Load</option>
         </select>
-
-        <button :disabled="isDisabled" title="Добавить" class="add-btn" @click="addJob">+</button>
-        <button :disabled="isDisabled" title="Удалить" class="add-btn" @click="removeJob">-</button>
+        <button :disabled="!removeEnabled" title="Удалить" class="add-btn" @click="removeJob(jobId)">-</button>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapMutations} from 'vuex';
+
     export default {
         name: "JobItem",
-        ...mapGetters({
-            AddEditMode: 'AddEditMode',
-        }),
         props: {
             jobItem: {
                 type: Object,
-                required: false
-            },
-        },
-        data() {
-            return {
-                //jobType: null
-            }
-        },
-        computed: {
-            jobId() {
-                return this.jobItem !== undefined ? `job_id_${this.jobItem.id}`: `job_id_0`;
-            },
-            jobName:{
-                get(){
-                    if( this.jobItem ){
-
-                        return this.jobItem.jobName;
-                    }
-                },
-                set(){
-
+                required: false,
+                default: {
+                    id: 0,
+                    jobName: '',
+                    jobType: null
                 }
             },
-            jobType:{
+            index: {
+                type: Number,
+                required: false,
+            }
+        },
+        methods: {
+            removeJob(id) {
+                console.log(id);
+                this.removeJob(id);
+
+            },
+            typeChange(event) {
+                this.jobType = event.target.value;
+            },
+            ...mapMutations({
+                setJobName: 'setJobName',
+                setJobType: 'setJobType',
+                removeJob: 'removeJob',
+            })
+        },
+        computed: {
+            ...mapGetters({
+                AddEditMode: 'AddEditMode',
+                jobItems: 'jobItems',
+                newJobItems: 'newJobItems',
+            }),
+            jobId() {
+                return this.jobItem !== undefined ? `job_${this.jobItem.id}` : `job_`;
+            },
+            jobName: {
                 get() {
-                    if(this.jobItem){
+                    if (this.jobItem.jobName) {
+                        return this.jobItem.jobName;
+                    }
+                    else if (this.index) {
+                        let target = this.newJobItems.find(el => el.id === this.index);
+                        return target.jobName;
+                    }
+                },
+                set(value) {
+                    let id = parseInt(this.jobId.split('_')[1]);
+                    if (!isNaN(id)) {
+                        let obj = {
+                            id: id,
+                            value: value
+                        };
+                        this.setJobName(obj);
+                    }
+                }
+            },
+            jobType: {
+                get() {
+                    if (this.jobItem) {
                         return this.jobItem.jobType;
                     }
                 },
                 set(value) {
-                    //this.jobType = value;
+                    let id = parseInt(this.jobId.split('_')[1]);
+                    if (!isNaN(id)) {
+                        let obj = {
+                            id: id,
+                            value: value
+                        };
+                        this.setJobType(obj);
+                    }
                 }
             },
             isDisabled() {
                 //return !(this.jobName.length > 0 && this.jobType !== null);
             },
-            addMode(){
+            addMode() {
                 return this.AddEditMode === 'add';
+            },
+            removeEnabled() {
+                if (this.AddEditMode === 'add') {
+                    return this.newJobItems.length > 1;
+                } else if (this.AddEditMode === 'edit') {
+                    return this.jobItems.length > 1;
+
+                }
             }
         },
-        mounted(){
-            if(this.jobItem){
-                let selElement = document.getElementById( this.jobId );
-                selElement.getElementsByTagName( 'option' )[this.jobItem.jobType + 1].selected = true;
+        mounted() {
+            if (this.jobItem && this.jobItem.jobType) {
+                let selElement = document.getElementById(this.jobId);
+                selElement.getElementsByTagName('option')[this.jobItem.jobType].selected = true;
             }
-
         },
-        methods: {
-            addJob() {
-                let jobItem = {
-                    jobName: this.jobName,
-                    jobType: this.jobType
-                };
-                this.$store.commit('addJob', jobItem);
-            },
-            removeJob() {
 
-            },
-            typeChange(event) {
-                this.jobType = event.target.value;
-            }
-        }
     }
 </script>

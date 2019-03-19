@@ -15,14 +15,15 @@
                         Список job'ов
                     </div>
                     <div v-if="!addMode">
-                    <job-item v-for="(item, i) in jobItems" :key="i" :jobItem="item"></job-item>
+                        <job-item v-for="(item, i) in jobItems" :key="i" :jobItem="item"></job-item>
                     </div>
                     <div v-else>
-                        <job-item :key="1" ></job-item>
+                        <job-item v-for="(item, i) in newJobItems" :key="i" :index="i+1" :jobItem="item"></job-item>
                     </div>
                 </div>
             </div>
             <div class="buttons-part">
+                <button :disabled="!AddJobEnable" class="main-btn left-button" @click="addJob">Добавить job</button>
                 <button :disabled="isDisabled" class="main-btn" @click="closeDialog">Сохранить</button>
                 <button class="main-btn" @click="closeDialog">Закрыть</button>
             </div>
@@ -32,65 +33,75 @@
 
 <script>
     import JobItem from "./JobItem"
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions ,mapMutations} from 'vuex';
 
     export default {
         name: "AddEditComponent",
         components: {
             JobItem
         },
-        data() {
-            return {
-                reportName: ''
-            }
-        },
         computed: {
             ...mapGetters({
                 jobItems: 'jobItems',
                 AddEditMode: 'AddEditMode',
-                getReportName:'getReportName'
+                getReportName: 'getReportName',
+                newJobItems: 'newJobItems'
             }),
             reportNameExist() {
-                return this.reportName.length > 2
+                return this.reportName.length > 0
             },
             isDisabled() {
-                return !(this.jobItems.length > 1 && this.reportNameExist);
+                if(this.AddEditMode === 'add'){
+
+                    return  !(this.newJobItems.length > 0 && this.getReportName.length > 0);
+                }
+                else if(this.AddEditMode === 'edit'){
+                    return  !(this.jobItems.length > 0 && this.getReportName.length > 0);
+                }
             },
             captionText() {
                 return this.AddEditMode === 'add' ? 'Добавить новый mapping' : 'Редактировать mapping';
             },
-            addMode(){
+            addMode() {
                 return this.AddEditMode === 'add';
-            }
-        },
-        watch:{
-            getReportName(newVal, oldVal){
-                this.reportName = newVal;
             },
-        },
-        // mounted(){
-        //     this.$store.watch(
-        //         (state, getters) => state.mappingModule.reportName,
-        //         (newVal, oldVal) => {
-        //             this.reportName = newVal;
-        //         }
-        //     )
-        // },
-        // mounted(){
-        //     this.$store.subscribe(((mutation, state )=> {
-        //         switch (mutation.type) {
-        //             case 'setReportData':{
-        //                 console.log(state);
-        //                 this.reportName = state.mappingModule.reportName;
-        //             }
-        //             break;
-        //         }
-        //     }))
-        // },
-        methods: {
-            closeDialog() {
-                this.$store.dispatch('setAddEditComponentsVisible', {visible: false, mode: null});
+            AddJobEnable() {
+                let jobCount = 0;
+                if (this.AddEditMode === 'add') {
+                    jobCount = this.newJobItems.length;
+                } else {
+                    jobCount = this.jobItems.length;
+                }
+                return jobCount < 2;
+            },
+            reportName:{
+                get(){
+                    return this.getReportName;
+                },
+                set(val){
+                    this.setReportName(val);
+                }
             }
+        },
+        methods: {
+            ...mapMutations({
+                setReportName : 'setReportName'
+            }),
+            ...mapActions({
+                setAddEditComponentsVisible : 'setAddEditComponentsVisible'
+            }),
+            closeDialog() {
+                this.setAddEditComponentsVisible( {visible: false, mode: null});
+            },
+            addJob() {
+                if (this.AddJobEnable) {
+                    if (this.AddEditMode === 'add') {
+                        this.$store.commit('addNewJob');
+                    } else if (this.AddEditMode === 'edit') {
+                        this.$store.commit('addJob');
+                    }
+                }
+            },
         },
         beforeDestroy() {
             this.$store.commit('cleanJobs');

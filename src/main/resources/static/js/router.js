@@ -8,10 +8,12 @@ let routes = [
     {
         path: '/',
         component: EditJobMapping,
+        meta: {title: 'Mapping'}
     },
     {
         path: '/dashboards',
         component: DashboardPage,
+        meta: {title: 'DashboardPage'}
     },
     {
         path: '/login',
