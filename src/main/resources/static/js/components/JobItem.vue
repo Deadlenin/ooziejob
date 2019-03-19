@@ -94,7 +94,7 @@
                 }
             },
             isDisabled() {
-                //return !(this.jobName.length > 0 && this.jobType !== null);
+
             },
             addMode() {
                 return this.AddEditMode === 'add';
