@@ -8,7 +8,7 @@ export default {
         jobItems: [],
         reportName: '',
         reportId: null,
-        newJobItems: [{id:1}]
+        newJobItems: [{id: 1}]
     },
     getters: {
         reports(state) {
@@ -76,29 +76,37 @@ export default {
         addJob(state, payload) {
             state.jobItems.push(payload);
         },
-        setJobName(state, payload){
+        setJobName(state, payload) {
             let jobs = state.newJobItems;
             let id = payload.id;
-            let target =jobs.find(el => el.id === id);
-            if(target){
+            let target = jobs.find(el => el.id === id);
+            if (target) {
                 target.jobName = payload.value;
             }
 
         },
-        setJobType(state, payload){
+        setJobType(state, payload) {
             let jobs = state.newJobItems;
             let id = payload.id;
-            let target =jobs.find(el => el.id === id);
-            if(target){
+            let target = jobs.find(el => el.id === id);
+            if (target) {
                 target.jobType = payload.value;
             }
 
         },
-        removeJob(state, payload){
-            let jobs = state.newJobItems;
-            let id = payload.id;
-            jobs.splice(jobs.findIndex(el=>el.id === id),1);
-            state.newJobItems = jobs;
+        removeJob(state, payload) {
+            let jobs = [];
+            let id = parseInt(payload);
+            if (state.AddEditMode === 'add') {
+                jobs = state.newJobItems;
+                jobs.splice(jobs.findIndex(el => el.id === id), 1);
+                state.newJobItems = jobs;
+            } else {
+                jobs = state.jobItems;
+                jobs.splice(jobs.findIndex(el => el.id === id), 1);
+                state.jobItems = jobs;
+            }
+
 
         },
         setReportName(state, payload) {
@@ -106,7 +114,7 @@ export default {
         },
         addNewJob(state, payload) {
             let nextIndex = state.newJobItems[state.newJobItems.length - 1].id + 1;
-            state.newJobItems.push({id:nextIndex});
+            state.newJobItems.push({id: nextIndex});
         },
         setReportData(state, payload) {
             state.reportName = payload.reportName;
@@ -114,7 +122,7 @@ export default {
         },
         cleanJobs(state) {
             state.jobItems.length = 0;
-            state.newJobItems = [{id:1}];
+            state.newJobItems = [{id: 1}];
             state.reportName = '';
             state.AddEditMode = null;
         }

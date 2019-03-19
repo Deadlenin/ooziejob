@@ -7,7 +7,7 @@
             <option value="2">Build</option>
             <option value="3">Load</option>
         </select>
-        <button :disabled="!removeEnabled" title="Удалить" class="add-btn" @click="removeJob(jobId)">-</button>
+        <button :disabled="!removeEnabled" title="Удалить" class="add-btn" @click="remove(jobId)">-</button>
     </div>
 </template>
 
@@ -32,9 +32,8 @@
             }
         },
         methods: {
-            removeJob(id) {
-                console.log(id);
-                this.removeJob(id);
+            remove(id) {
+                this.removeJob(id.split('_')[1]);
 
             },
             typeChange(event) {
@@ -62,7 +61,11 @@
                     }
                     else if (this.index) {
                         let target = this.newJobItems.find(el => el.id === this.index);
-                        return target.jobName;
+                        if(target.jobName){
+                            return target.jobName;
+                        }
+                        return '';
+
                     }
                 },
                 set(value) {
