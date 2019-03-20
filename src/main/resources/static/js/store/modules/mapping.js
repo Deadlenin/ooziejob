@@ -8,7 +8,8 @@ export default {
         jobItems: [],
         reportName: '',
         reportId: null,
-        newJobItems: [{id: 1}]
+        newJobItems: [{id: 1}],
+        reportToDelete:null
     },
     getters: {
         reports(state) {
