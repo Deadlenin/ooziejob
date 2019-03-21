@@ -12,6 +12,7 @@ public class JobStatus {
     private String lastModTime;
     private String endTime;
     private Integer jobType;
+    private String consoleUrl;
 
     @Override
     public boolean equals(Object o) {
@@ -34,8 +35,6 @@ public class JobStatus {
 
         return Objects.hash(reportPath, status, appName, createdTime, startTime, lastModTime, endTime, consoleUrl, jobType);
     }
-
-    private String consoleUrl;
 
 
 

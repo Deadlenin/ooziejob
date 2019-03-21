@@ -79,7 +79,7 @@ export default {
             state.jobItems.push({id: nextIndex});
         },
         setJobName(state, payload) {
-            let jobs = state.newJobItems;
+            let jobs = state.AddEditMode === 'add' ? state.newJobItems : state.jobItems;
             let id = payload.id;
             let target = jobs.find(el => el.id === id);
             if (target) {
@@ -88,7 +88,7 @@ export default {
 
         },
         setJobType(state, payload) {
-            let jobs = state.newJobItems;
+            let jobs = state.AddEditMode === 'add' ? state.newJobItems : state.jobItems;
             let id = payload.id;
             let target = jobs.find(el => el.id === id);
             if (target) {

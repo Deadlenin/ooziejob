@@ -10,7 +10,7 @@ export default {
     getters: {
         okFunction : (state) => state.okFunction,
         confirmMessgeText : (state) => state.confirmMessgeText,
-        getConfirmDialogVisible : (state) => state.confirmDialogVisible,
+        //getConfirmDialogVisible : (state) => state.confirmDialogVisible,
     },
     actions:{
         deleteReport({commit, dispatch, rootState}, id) {
