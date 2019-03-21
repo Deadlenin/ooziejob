@@ -175,7 +175,7 @@
         updated() {
             let typeId = this.jobItem.jobType || 0;
             for (let i = 0; i < this.options.length; i++) {
-                this.options[i].value === typeId ?  this.options[i].selected = true : this.options[i].selected = false
+                this.options[i].value === typeId ?  this.options[i].selected = true : this.options[i].selected = false;
             }
         },
 
