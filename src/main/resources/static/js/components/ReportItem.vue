@@ -21,6 +21,9 @@
             },
         },
         computed: {
+            ...mapGetters({
+                reports: 'reports'
+            }),
             name() {
                 let name = this.reportName.split('/home/reports/')[1];
                 return name
@@ -31,7 +34,11 @@
         },
         methods: {
             ...mapMutations({
-                setConfirmDialogVisible: 'setConfirmDialogVisible'
+                setConfirmDialogVisible: 'setConfirmDialogVisible',
+                setConfirmDialogText: 'setConfirmDialogText',
+                setConfirmOkFunction: 'setConfirmOkFunction',
+                setConfirmCloseFunction : 'setConfirmCloseFunction',
+                setReportToDelete : 'setReportToDelete'
             }),
             ...mapActions({
                 deleteReport:'deleteReport'
@@ -41,8 +48,17 @@
                     this.$store.dispatch('getReportById', parseInt(elId));
             },
             delReport(id){
-                this.setConfirmDialogVisible(true);
-                this.deleteReport(id);
+                let currentReport = this.reports.filter(el=>el.id===id);
+                if(!!currentReport.length) {
+                    this.setConfirmDialogVisible(true);
+                    let repName = currentReport[0].reportName;
+                    let text = `Вы действительно хотите удалить mapping для отчета
+                     ${repName}`;
+                    this.setReportToDelete(id);
+                    this.setConfirmDialogText(text);
+                    this.setConfirmOkFunction('deleteReport');
+                    this.setConfirmCloseFunction('cleanReportToDelete');
+                }
             }
         }
     }

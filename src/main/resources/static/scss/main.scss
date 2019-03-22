@@ -75,6 +75,9 @@ header {
   &:hover:not(.active) {
    background: #0000bd;
   }
+  &.rSide{
+    float: right;
+  }
 }
 
 .appContent {
@@ -97,6 +100,7 @@ header {
   padding: 5px 10px;
   outline: none;
   background: #ffffff;
+  min-width: 45px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin: 0 3px 0 3px;

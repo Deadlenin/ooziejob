@@ -9,11 +9,12 @@ import ru.ooziejobstatus.entities.Report;
 import ru.ooziejobstatus.exception.NotFoundException;
 import ru.ooziejobstatus.models.ReportResponse;
 import ru.ooziejobstatus.models.ReportWithJobsResponse;
-import ru.ooziejobstatus.models.Response;
 import ru.ooziejobstatus.repos.ReportRepository;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -51,7 +52,6 @@ public class MappingController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    @ResponseBody
     @CrossOrigin(origins = "*")
     public void delete(@RequestParam("id") @NotNull Long id) {
         Optional<Report> one = reportRepository.findById(id);

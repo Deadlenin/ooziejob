@@ -27,10 +27,13 @@ export default {
         },
         newJobItems: (state) => {
             return state.newJobItems
+        },
+        getReportToDelete : state =>{
+            return state.reportToDelete
         }
     },
     actions: {
-        getReports({commit, dispatch}, searchObj) {
+        getReports({commit}) {
             commit('setProcessing', true);
             let settings = {
                 url: "http://localhost:8090/",
@@ -64,7 +67,32 @@ export default {
         },
         setAddEditComponentsVisible({commit}, settings) {
             commit('setVisible', settings);
-        }
+        },
+        deleteReport({commit, dispatch, state}, id) {
+            commit('setProcessing', true);
+            let repToDel = state.reportToDelete;
+            if(repToDel !== null) {
+                let settings = {
+                    url: "http://localhost:8090/delete?id=" + repToDel,
+                    method: 'DELETE',
+                };
+                getData(settings).then(result => {
+                    commit('setProcessing', false);
+                    commit('setConfirmDialogVisible', false);
+                    dispatch('getReports');
+
+                }).catch(e => {
+                    commit('setProcessing', false);
+                    commit('setConfirmDialogVisible', false);
+                    console.log('при удалении отчета произошла ошибка');
+                });
+            }
+        },
+        cleanReportToDelete({commit}){
+            commit('cleanReportToDelete');
+            commit('cleanDialogData');
+        },
+
     },
     mutations: {
         setReports(state, payload) {
@@ -127,6 +155,12 @@ export default {
             state.newJobItems = [{id: 1}];
             state.reportName = '';
             state.AddEditMode = null;
+        },
+        setReportToDelete(state, payload){
+            state.reportToDelete = payload
+        },
+        cleanReportToDelete(state, payload){
+            state.reportToDelete = null;
         }
     }
 }

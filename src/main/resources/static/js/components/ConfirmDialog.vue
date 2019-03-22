@@ -1,31 +1,15 @@
 <template>
     <div>
         <div class="background"></div>
-        <div>
-            <div class="background"></div>
-            <div class="add-edit-component">
-                <div class="caption">{{captionText}}</div>
+        <div class="confirm-dialog">
+            <div class="caption">Удалить mapping</div>
+            <div>
                 <div class="main-form-content">
-                    <div class="report">
-                        <label class="block-label" for="report-name">Отчет</label>
-                        <input class="report-input" v-model="reportName" id="report-name" placeholder="Введите имя отчета"
-                               type="text">
-                    </div>
-                    <hr/>
-                    <div class="jobs">
-                        <div class="job-caption">
-                            Список job'ов
-                        </div>
-                        <div v-if="!addMode">
-                            <job-item v-for="(item, i) in jobItems" :key="i" :index="item.id" :jobItem="item"></job-item>
-                        </div>
-                        <div v-else>
-                            <job-item v-for="(item, i) in newJobItems" :key="i" :index="i+1" :jobItem="item"></job-item>
-                        </div>
-                    </div>
+                    {{getConfirmDialogText}}
                 </div>
+
                 <div class="buttons-part">
-                    <button :disabled="isDisabled" class="main-btn" @click="closeDialog">Да</button>
+                    <button class="main-btn" @click="okAction">Да</button>
                     <button class="main-btn" @click="closeDialog">Отмена</button>
                 </div>
             </div>
@@ -34,19 +18,25 @@
 </template>
 
 <script>
+    import {mapGetters, mapActions} from 'vuex';
+
     export default {
         name: "ConfirmDialog",
+        computed: {
+            ...mapGetters({
+                getConfirmDialogText: 'getConfirmDialogText',
+                confirmOkFunction: 'getConfirmOkFunction',
+                confirmCloseFunction : 'getConfirmCloseFunction'
+            }),
+        },
         methods: {
-            okAction(){
-                //this.$store.dispatch( 'setAddEditComponentsVisible', false );
+            okAction() {
+                this.$store.dispatch(this.confirmOkFunction);
             },
-            closeAction(){
-                //this.$store.dispatch( 'setAddEditComponentsVisible', false );
+            closeDialog() {
+                this.$store.dispatch(this.confirmCloseFunction);
+                this.$store.commit('setConfirmDialogVisible', false);
             },
         }
     }
 </script>
-
-<style scoped>
-
-</style>
