@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.ooziejobstatus.entities.JobOozie;
 import ru.ooziejobstatus.entities.Report;
 import ru.ooziejobstatus.exception.NotFoundException;
+import ru.ooziejobstatus.models.ReportFrontApi;
 import ru.ooziejobstatus.models.ReportResponse;
-import ru.ooziejobstatus.models.ReportWithJobsResponse;
+import ru.ooziejobstatus.models.ReportApi;
 import ru.ooziejobstatus.repos.ReportRepository;
 
 import javax.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ public class MappingController {
     public ResponseEntity<List<ReportResponse>> list() {
         List<Report> reports = reportRepository.findAll();
         List<ReportResponse> response = new ArrayList<>();
-        for (int i = 0; i <reports.size() ; i++) {
+        for (int i = 0; i < reports.size(); i++) {
             ReportResponse repItem = new ReportResponse();
             repItem.setId(reports.get(i).getId());
             repItem.setReportName(reports.get(i).getReportPath());
@@ -36,18 +37,19 @@ public class MappingController {
         }
         return new ResponseEntity<>(response, OK);
     }
+
     @GetMapping(value = "/get")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<ReportWithJobsResponse> get(@RequestParam("id") Long id) {
+    public ResponseEntity<ReportApi> get(@RequestParam("id") Long id) {
         Optional<Report> one = reportRepository.findById(id);
-                if (!one.isPresent())
+        if (!one.isPresent())
             throw new NotFoundException("Report with id " + id + " does not exists");
-        ReportWithJobsResponse response = new ReportWithJobsResponse();
+        ReportApi response = new ReportApi();
         Report rep = one.get();
         response.setId(rep.getId());
         response.setReportName(rep.getReportPath().split("home/reports")[1].substring(1));
         List<JobOozie> jl = rep.getJobNamesList();
-        response.setJobs( rep.getJobNamesList());
+        response.setJobs(rep.getJobNamesList());
         return new ResponseEntity<>(response, OK);
     }
 
@@ -55,35 +57,26 @@ public class MappingController {
     @CrossOrigin(origins = "*")
     public void delete(@RequestParam("id") @NotNull Long id) {
         Optional<Report> one = reportRepository.findById(id);
-        Report rep = reportRepository.getOne(id);
-        Report r2 = (Report)one.get();
-        if(rep != null) {
-            reportRepository.delete(rep);
-        }
+        if (!one.isPresent())
+            throw new NotFoundException("Report with id " + id + " does not exists");
+        Report rep = one.get();
+        reportRepository.delete(rep);
 
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     @CrossOrigin(origins = "*")
-    public Report save() {
-        ReportWithJobsResponse r = new ReportWithJobsResponse();
-        Report report = new Report();
-        Long id= 50l;
-        report.setId(id);
-        report.setReportPath("/home/reports/tttttt/KPI   ttttttt.wcdf");
-        JobOozie job = new JobOozie();
-        job.setJobName("new job");
-        job.setJobName("555");
-        job.setJobType(1);
-        job.setReport(report);
-        List<JobOozie> jobs = new ArrayList<>();
-        jobs.add(job);
-        report.setJobNamesList(jobs);
-
-        reportRepository.save(report);
-        return report;
-        //return _criteriaService.save(criterionApi);
+    public Report save(@RequestPart("reportApi") ReportFrontApi report) {
+        Long id = report.getId();
+        String rNmae = report.getReportName();
+        Optional<Report> one = reportRepository.findById(id);
+        if (!one.isPresent())
+            throw new NotFoundException("Report with id " + id + " does not exists");
+        Report rep = one.get();
+        rep.setReportPath("/home/reports/".concat(rNmae));
+        reportRepository.save(rep);
+        return rep;
     }
 
 }

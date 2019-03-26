@@ -5,7 +5,7 @@ import ru.ooziejobstatus.entities.JobOozie;
 import java.util.List;
 import java.util.Objects;
 
-public class ReportWithJobsResponse{
+public class ReportApi {
 
     private Long id;
     private String ReportName;

@@ -24,7 +24,7 @@
             </div>
             <div class="buttons-part">
                 <button :disabled="!AddJobEnable" class="main-btn left-button" @click="addJob">Добавить job</button>
-                <button :disabled="isDisabled" class="main-btn" @click="closeDialog">Сохранить</button>
+                <button :disabled="isDisabled" class="main-btn" @click="saveChanges">Сохранить</button>
                 <button class="main-btn" @click="closeDialog">Закрыть</button>
             </div>
         </div>
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-    import JobItem from "./JobItem"
-    import {mapGetters, mapActions ,mapMutations} from 'vuex';
+    import JobItem                                  from "./JobItem"
+    import { mapGetters, mapActions, mapMutations } from 'vuex';
 
     export default {
         name: "AddEditComponent",
@@ -41,70 +41,87 @@
             JobItem
         },
         computed: {
-            ...mapGetters({
+            ...mapGetters( {
                 jobItems: 'jobItems',
                 AddEditMode: 'AddEditMode',
                 getReportName: 'getReportName',
-                newJobItems: 'newJobItems'
-            }),
-            reportNameExist() {
+                newJobItems: 'newJobItems',
+                reportId: 'reportId'
+            } ),
+            reportNameExist(){
                 return this.reportName.length > 0
             },
-            isDisabled() {
-                if(this.AddEditMode === 'add'){
+            isDisabled(){
+                if( this.AddEditMode === 'add' ){
 
-                    return  !(this.newJobItems.length > 0 && this.getReportName.length > 0);
+                    return !( this.newJobItems.length > 0 && this.getReportName.length > 0 );
                 }
-                else if(this.AddEditMode === 'edit'){
-                    return  !(this.jobItems.length > 0 && this.getReportName.length > 0);
+                else if( this.AddEditMode === 'edit' ){
+                    return !( this.jobItems.length > 0 && this.getReportName.length > 0 );
                 }
             },
-            captionText() {
+            captionText(){
                 return this.AddEditMode === 'add' ? 'Добавить новый mapping' : 'Редактировать mapping';
             },
-            addMode() {
+            addMode(){
                 return this.AddEditMode === 'add';
             },
-            AddJobEnable() {
+            AddJobEnable(){
                 let jobCount = 0;
-                if (this.AddEditMode === 'add') {
+                if( this.AddEditMode === 'add' ){
                     jobCount = this.newJobItems.length;
-                } else {
+                }
+                else{
                     jobCount = this.jobItems.length;
                 }
                 return jobCount < 2;
             },
-            reportName:{
+            reportName: {
                 get(){
                     return this.getReportName;
                 },
-                set(val){
-                    this.setReportName(val);
+                set( val ){
+                    this.setReportName( val );
                 }
             }
         },
         methods: {
-            ...mapMutations({
-                setReportName : 'setReportName'
-            }),
-            ...mapActions({
-                setAddEditComponentsVisible : 'setAddEditComponentsVisible'
-            }),
-            closeDialog() {
-                this.setAddEditComponentsVisible( {visible: false, mode: null});
+            ...mapMutations( {
+                setReportName: 'setReportName'
+            } ),
+            ...mapActions( {
+                setAddEditComponentsVisible: 'setAddEditComponentsVisible',
+                editMapping: 'editMapping'
+            } ),
+            closeDialog(){
+                this.setAddEditComponentsVisible( { visible: false, mode: null } );
             },
-            addJob() {
+            addJob(){
                 //if (this.AddJobEnable) {
-                    if (this.AddEditMode === 'add') {
-                        this.$store.commit('addNewJob');
-                    } else if (this.AddEditMode === 'edit') {
-                        this.$store.commit('addJob');
-                    }
+                if( this.AddEditMode === 'add' ){
+                    this.$store.commit( 'addNewJob' );
+                }
+                else if( this.AddEditMode === 'edit' ){
+                    this.$store.commit( 'addJob' );
+                }
                 //}
             },
+            saveChanges(){
+                if( this.AddEditMode === 'add' ){
+
+                }
+                else{
+                    let report = {
+                        id: this.reportId,
+                        reportName: this.getReportName,
+                        jobs: this.jobItems,
+                    };
+                    this.editMapping(report);
+                }
+            }
         },
-        beforeDestroy() {
-            this.$store.commit('cleanJobs');
+        beforeDestroy(){
+            this.$store.commit( 'cleanJobs' );
         },
     }
 </script>
