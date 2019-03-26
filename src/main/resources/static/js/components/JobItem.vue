@@ -70,7 +70,6 @@
         methods: {
             remove( id ){
                 this.removeJob( id.split( '_' )[1] );
-
             },
             typeChange( event ){
                 let id = parseInt( event.target.id.split( '_' )[1] );
@@ -92,12 +91,12 @@
         },
         watch: {
             jobName( newVal ){
-                console.log( newVal );
+                let name = newVal || '';
                 let id = parseInt( this.jobId.split( '_' )[1] );
                 if( !isNaN( id ) ){
                     let obj = {
                         id: id,
-                        value: newVal
+                        value: name
                     };
                     this.setJobName( obj );
                 }
@@ -109,43 +108,8 @@
                 jobItems: 'jobItems',
                 newJobItems: 'newJobItems',
             } ),
-            jobTypeModel(){
-
-            },
             jobId(){
                 return this.jobItem !== undefined ? `job_${this.jobItem.id}` : `job_`;
-            },
-            // jobName: {
-            //     get() {
-            //         if (this.jobItem.jobName) {
-            //             return this.jobItem.jobName;
-            //         } else if (this.index) {
-            //             let target;
-            //             if (this.AddEditMode === 'add') {
-            //                 target = this.newJobItems.find(el => el.id === this.index);
-            //             } else if (this.AddEditMode === 'edit') {
-            //                 target = this.jobItems.find(el => el.id === this.index);
-            //             }
-            //             if (target && target.jobName && this.jobItem.id === this.index) {
-            //                 return target.jobName;
-            //             }
-            //             return '';
-            //
-            //         }
-            //     },
-            //     set(value) {
-            //         let id = parseInt(this.jobId.split('_')[1]);
-            //         if (!isNaN(id)) {
-            //             let obj = {
-            //                 id: id,
-            //                 value: value
-            //             };
-            //             this.setJobName(obj);
-            //         }
-            //     }
-            // },
-            isDisabled(){
-
             },
             addMode(){
                 return this.AddEditMode === 'add';
@@ -156,7 +120,6 @@
                 }
                 else if( this.AddEditMode === 'edit' ){
                     return this.jobItems.length > 1;
-
                 }
             }
         },
@@ -164,7 +127,6 @@
             this.$refs.jName && this.$refs.jName.focus();
         },
         beforeMount(){
-            console.log( "beforeMount" );
             this.jobName = this.jobItem.jobName;
             let typeId = this.jobItem.jobType || 0;
             for( let i = 0; i < this.options.length; i++ ){
@@ -175,17 +137,9 @@
                     this.options[i].selected = false;
                 }
             }
-            console.log( this.options );
-            console.log( "--------------------------------" );
-        },
-        beforeDestroy(){
-            console.log( "this.deletedJob" );
-            console.log( this.jobItem );
         },
         beforeUpdate(){
-            if( this.AddEditMode === 'add' ){
-                this.jobName = this.jobItem.jobName;
-            }
+            this.jobName = this.jobItem.jobName;
         },
         updated(){
             let typeId = this.jobItem.jobType || 0;
