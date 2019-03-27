@@ -36,7 +36,7 @@ public class StatusControllerCors {
                 Response respItem = new Response();
                 Report currentReport = reports.get(i);
                 respItem.setReportPath(currentReport.getReportPath());
-                List<JobOozie> jobs = (List<JobOozie>)currentReport.getJobNamesList();// массив job'ов из бд
+                List<JobOozie> jobs = (List<JobOozie>)currentReport.getJobList();// массив job'ов из бд
                 List<JobStatus> jobList = new ArrayList<>(); // инициализация списка статусов
                 for (int j = 0; j < jobs.size(); j++) {
                     JobOozie job = jobs.get(j);

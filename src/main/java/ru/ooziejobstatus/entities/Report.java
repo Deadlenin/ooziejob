@@ -3,7 +3,6 @@ package ru.ooziejobstatus.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,7 +21,7 @@ public class Report implements Serializable {
 
     @OneToMany(mappedBy = "report",
             fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<JobOozie> JobNamesList;
+    private List<JobOozie> JobList;
     private Report report;
 
 
@@ -50,14 +49,20 @@ public class Report implements Serializable {
         ReportPath = reportPath.trim();
     }
 
-    public List<JobOozie> getJobNamesList() {
-        if (JobNamesList == null)
-            JobNamesList = new ArrayList<>();
-        return JobNamesList;
+    public List<JobOozie> getJobList() {
+        if (JobList == null)
+            JobList = new ArrayList<>();
+        return JobList;
     }
 
-    public void setJobNamesList(List<JobOozie> JobNamesList) {
-        this.JobNamesList = JobNamesList;
+    public Report addJobOozie(JobOozie jobOozie){
+        jobOozie.setReport(this);
+        getJobList().add(jobOozie);
+        return this;
+    }
+
+    public void setJobList(List<JobOozie> JobList) {
+        this.JobList = JobList;
     }
 
     @Override
@@ -67,7 +72,7 @@ public class Report implements Serializable {
         Report that = (Report)o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(ReportPath, that.ReportPath) &&
-                Objects.equals(JobNamesList, that.JobNamesList);
+                Objects.equals(JobList, that.JobList);
     }
 
     @Override

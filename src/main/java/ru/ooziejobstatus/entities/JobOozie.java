@@ -26,6 +26,17 @@ public class JobOozie {
     @Column(name = "job_type")
     private Integer JobType;
 
+    public JobOozie() {
+    }
+
+    public JobOozie(String jobName) {
+        this.JobName = jobName;
+    }
+
+    public JobOozie(String jobName, Integer jobType) {
+        this.JobName = jobName;
+        this.JobType = jobType;
+    }
 
     public Long getId() {
         return id;
@@ -51,8 +62,8 @@ public class JobOozie {
         return report;
     }
 
-    public void setReport(Report report) {
-        this.report = report;
+    public void setReport(Report reportByIdReport) {
+        this.report = reportByIdReport;
     }
 
     @JsonIgnore

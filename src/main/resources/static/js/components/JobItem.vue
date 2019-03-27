@@ -74,7 +74,6 @@
             typeChange( event ){
                 let id = parseInt( event.target.id.split( '_' )[1] );
                 let value = parseInt( event.target.value );
-
                 if( !isNaN( id ) && !isNaN( value ) ){
                     let obj = {
                         id: id,

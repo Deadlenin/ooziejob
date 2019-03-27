@@ -94,8 +94,8 @@ export default {
             
             formData.append( 'reportApi', new Blob( [JSON.stringify( report )], { type: "application/json" } ) );
             let settings = {
-                url: "http://localhost:8090/save",
-                method: 'POST',
+                url: "http://localhost:8090/edit",
+                method: 'PUT',
                 responseType: 'json',
                 data: formData,
                 contentType: undefined
