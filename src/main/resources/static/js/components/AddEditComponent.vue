@@ -87,7 +87,11 @@
         },
         methods: {
             ...mapMutations( {
-                setReportName: 'setReportName'
+                setReportName: 'setReportName',
+                addNewJob : 'addNewJob',
+                addJob: 'addJob',
+                cleanJobs : 'cleanJobs'
+
             } ),
             ...mapActions( {
                 setAddEditComponentsVisible: 'setAddEditComponentsVisible',
@@ -97,14 +101,12 @@
                 this.setAddEditComponentsVisible( { visible: false, mode: null } );
             },
             addJob(){
-                //if (this.AddJobEnable) {
                 if( this.AddEditMode === 'add' ){
-                    this.$store.commit( 'addNewJob' );
+                    this.addNewJob();
                 }
                 else if( this.AddEditMode === 'edit' ){
-                    this.$store.commit( 'addJob' );
+                    this.addJob();
                 }
-                //}
             },
             saveChanges(){
                 if( this.AddEditMode === 'add' ){
@@ -121,7 +123,7 @@
             }
         },
         beforeDestroy(){
-            this.$store.commit( 'cleanJobs' );
+            this.cleanJobs();
         },
     }
 </script>

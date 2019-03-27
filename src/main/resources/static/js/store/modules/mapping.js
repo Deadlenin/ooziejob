@@ -98,7 +98,6 @@ export default {
                 method: 'PUT',
                 responseType: 'json',
                 data: formData,
-                contentType: undefined
             };
             getData( settings ).then( result => {
                 console.log( result );

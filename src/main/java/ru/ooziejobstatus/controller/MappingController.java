@@ -108,7 +108,7 @@ public class MappingController {
 
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Report save(@RequestPart("reportApi") ReportFrontApi report) {
