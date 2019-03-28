@@ -19,8 +19,7 @@ public class Report implements Serializable {
     @Column(name = "report_path")
     private String ReportPath;
 
-    @OneToMany(mappedBy = "report",
-            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "report", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobOozie> JobList;
     private Report report;
 
