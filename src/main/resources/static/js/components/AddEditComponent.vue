@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="buttons-part">
-                <button :disabled="!AddJobEnable" class="main-btn left-button" @click="addJob">Добавить job</button>
+                <button :disabled="!AddJobEnable" class="main-btn left-button" @click="addJobInput">Добавить job</button>
                 <button :disabled="isDisabled" class="main-btn" @click="saveChanges">Сохранить</button>
                 <button class="main-btn" @click="closeDialog">Закрыть</button>
             </div>
@@ -90,17 +90,18 @@
                 setReportName: 'setReportName',
                 addNewJob : 'addNewJob',
                 addJob: 'addJob',
-                cleanJobs : 'cleanJobs'
+                cleanJobs : 'cleanJobs',
 
             } ),
             ...mapActions( {
                 setAddEditComponentsVisible: 'setAddEditComponentsVisible',
-                editMapping: 'editMapping'
+                editMapping: 'editMapping',
+                saveMapping: 'saveMapping',
             } ),
             closeDialog(){
                 this.setAddEditComponentsVisible( { visible: false, mode: null } );
             },
-            addJob(){
+            addJobInput(){
                 if( this.AddEditMode === 'add' ){
                     this.addNewJob();
                 }
@@ -110,7 +111,12 @@
             },
             saveChanges(){
                 if( this.AddEditMode === 'add' ){
-
+                    let report = {
+                        id: null,
+                        reportName: this.getReportName,
+                        jobs: this.newJobItems,
+                    };
+                    this.saveMapping(report);
                 }
                 else{
                     let report = {

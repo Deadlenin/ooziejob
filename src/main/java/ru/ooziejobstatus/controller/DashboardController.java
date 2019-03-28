@@ -18,12 +18,13 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/dashboards/")
+@CrossOrigin(origins = "*")
+
 public class DashboardController {
     @Autowired
     private ReportRepository reportRepository;
 
     @GetMapping("/")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<List<ReportResponse>> list() {
         List<Report> reports = reportRepository.findAll();
         List<ReportResponse> response = new ArrayList<>();

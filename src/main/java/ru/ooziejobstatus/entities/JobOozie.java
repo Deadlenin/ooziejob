@@ -67,7 +67,7 @@ public class JobOozie {
     }
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_report_pentaho", referencedColumnName = "id")
     private Report report;
 

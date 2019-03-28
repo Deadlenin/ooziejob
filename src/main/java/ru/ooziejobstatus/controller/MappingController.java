@@ -108,10 +108,23 @@ public class MappingController {
 
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Report save(@RequestPart("reportApi") ReportFrontApi report) {
+        String rNmae = report.getReportName();
+        List<JobApi> frontJobs = report.getJobs();
+        Report reportToSave = new Report();
+        reportToSave.setReportPath("/home/reports/".concat(rNmae));
+        frontJobs.forEach(job-> reportToSave.addJobOozie(new JobOozie(job.getJobName(), job.getJobType())));
+        Report respReport = reportRepository.saveAndFlush(reportToSave);
+        return respReport;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    @ResponseBody
+    @CrossOrigin(origins = "*")
+    public Report edit(@RequestPart("reportApi") ReportFrontApi report) {
         Long id = report.getId();
         String rNmae = report.getReportName();
         Optional<Report> one = reportRepository.findById(id);
@@ -137,6 +150,7 @@ public class MappingController {
                 .collect(Collectors.toList());
 
         reportServer.getJobList().removeAll(deleteJobs);
+        deleteJobs.forEach(job-> job.setReport(null));
 
         List<JobOozie> dbJobs = reportServer.getJobList();
         List<NameTypeColletion> tcl = new ArrayList<>();
@@ -148,7 +162,7 @@ public class MappingController {
 
         addJob.forEach(x-> reportServer.addJobOozie(new JobOozie(x.getjName(), x.getjType())));
         Report rep = reportRepository.saveAndFlush(reportServer);
-        return reportServer;
+        return rep;
     }
 
 }

@@ -88,6 +88,27 @@ export default {
                 } );
             }
         },
+        saveMapping( { commit, dispatch }, report){
+            commit( 'setProcessing', true );
+            let formData = new FormData();
+            formData.append( 'reportApi', new Blob( [JSON.stringify( report )], { type: "application/json" } ) );
+            let settings = {
+                url: "http://localhost:8090/save",
+                method: 'POST',
+                responseType: 'json',
+                data: formData,
+            };
+            getData( settings ).then( result => {
+                console.log( result );
+                commit( 'setProcessing', false );
+                commit( 'setVisible', { visible: false, mode: 'add' } );
+                dispatch('getReports');
+            } ).catch( () => {
+                commit( 'setProcessing', false );
+                commit( 'setVisible', { visible: false, mode: 'edit' } );
+                console.log( 'при создании нового маппинга произошла ошибка' );
+            } );
+        },
         editMapping( { commit, dispatch }, report){
             commit( 'setProcessing', true );
             let formData = new FormData();
