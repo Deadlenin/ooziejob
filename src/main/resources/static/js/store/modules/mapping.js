@@ -18,7 +18,9 @@ export default {
         addEditComponentsVisible( state ){
             return state.addEditComponentsVisible;
         },
-        jobItems: ( state ) => state.jobItems,
+        jobItems: ( state ) =>{
+            return state.jobItems;
+        },
         getReportName: ( state ) => {
             return state.reportName
         },
@@ -76,7 +78,7 @@ export default {
                     url: "http://localhost:8090/delete?id=" + repToDel,
                     method: 'DELETE',
                 };
-                getData( settings ).then( result => {
+                getData( settings ).then( () => {
                     commit( 'setProcessing', false );
                     commit( 'setConfirmDialogVisible', false );
                     dispatch( 'getReports' );
@@ -112,7 +114,6 @@ export default {
         editMapping( { commit, dispatch }, report){
             commit( 'setProcessing', true );
             let formData = new FormData();
-            
             formData.append( 'reportApi', new Blob( [JSON.stringify( report )], { type: "application/json" } ) );
             let settings = {
                 url: "http://localhost:8090/edit",
@@ -148,7 +149,7 @@ export default {
                 state.reportId = null;
             }
         },
-        addJob( state, payload ){
+        addJob( state ){
             let nextIndex = state.jobItems[state.jobItems.length - 1].id + 1;
             state.jobItems.push( { id: nextIndex } );
         },
@@ -159,6 +160,14 @@ export default {
             if( target ){
                 target.jobName = payload.value;
             }
+            if(state.AddEditMode === 'add'){ // необходимо что бы пнуть пересчет на уровне addEdit компонента
+                state.newJobItems = null;
+                state.newJobItems = jobs;
+            }
+            else{
+                state.jobItems = null;
+                state.jobItems = jobs;
+            }
             
         },
         setJobType( state, payload ){
@@ -168,6 +177,14 @@ export default {
             if( target ){
                 target.jobType = payload.value;
             }
+            if(state.AddEditMode === 'add'){
+                state.newJobItems = null;
+                state.newJobItems = jobs;
+            }
+            else{
+                state.jobItems = null;
+                state.jobItems = jobs;
+            }
             
         },
         removeJob( state, payload ){
@@ -175,19 +192,25 @@ export default {
             let id = parseInt( payload );
             if( state.AddEditMode === 'add' ){
                 jobs = state.newJobItems;
-                jobs.splice( jobs.findIndex( el => el.id === id ), 1 );
-                state.newJobItems = jobs;
+                let jobIndex = jobs.findIndex( el => el.id === id );
+                if(!!~jobIndex) {
+                    jobs.splice( jobIndex, 1 );
+                    state.newJobItems = jobs;
+                }
             }
             else{
                 jobs = state.jobItems;
-                jobs.splice( jobs.findIndex( el => el.id === id ), 1 );
-                state.jobItems = jobs;
+                let jobIndex = jobs.findIndex( el => el.id === id );
+                if(!!~jobIndex) {
+                    jobs.splice( jobIndex, 1 );
+                    state.jobItems = jobs;
+                }
             }
         },
         setReportName( state, payload ){
             state.reportName = payload;
         },
-        addNewJob( state, payload ){
+        addNewJob( state ){
             let nextIndex = state.newJobItems[state.newJobItems.length - 1].id + 1;
             state.newJobItems.push( { id: nextIndex } );
         },
