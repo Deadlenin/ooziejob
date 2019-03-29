@@ -65,6 +65,9 @@
                     disabled = !( reportNameIsNotEmpty && jobIsNotEmpty && jobs.length < 3 );
                     return disabled;
                 }
+                else {
+                    console.log(`проверьте наличие дефолтных jobo'в`);
+                }
                 return true;
             },
             captionText() {

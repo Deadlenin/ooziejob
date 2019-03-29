@@ -145,9 +145,27 @@ public class MappingController {
         frontJobs.forEach(el -> frontJobCollection.add(new NameTypeColletion(el.getJobName(), el.getJobType())));
 
 
-        List<JobOozie> deleteJobs = reportServer.getJobList().stream()
-                .filter(x -> !jobNames.contains(x.getJobName()) || !frontJobTypes.contains(x.getJobType()))
-                .collect(Collectors.toList());
+        List<JobOozie> deleteJobs = new ArrayList<>();
+//        deleteJobs = reportServer.getJobList().stream()
+//                .filter(x -> !jobNames.contains(x.getJobName()))
+//                .filter(x-> !frontJobTypes.contains(x.getJobType()))
+//                .collect(Collectors.toList());
+
+        //reportServer.getJobList().forEach(job);
+
+        for (int i = 0; i <reportServer.getJobList().size() ; i++) {
+            boolean jobExist = false;
+            JobOozie currentJob = reportServer.getJobList().get(i);
+            for (int j = 0; j <frontJobCollection.size() ; j++) {
+                if(currentJob.getJobName().equals(frontJobCollection.get(j).getjName())
+                &&   currentJob.getJobType().equals(frontJobCollection.get(j).getjType())){
+                    jobExist = true;
+                }
+            }
+            if(!jobExist){
+                deleteJobs.add(currentJob);
+            }
+        }
 
         reportServer.getJobList().removeAll(deleteJobs);
         deleteJobs.forEach(job-> job.setReport(null));
