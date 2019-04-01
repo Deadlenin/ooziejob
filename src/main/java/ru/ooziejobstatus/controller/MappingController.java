@@ -13,7 +13,6 @@ import ru.ooziejobstatus.models.ReportResponse;
 import ru.ooziejobstatus.models.ReportApi;
 import ru.ooziejobstatus.repos.ReportRepository;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -148,7 +147,7 @@ public class MappingController {
         List<JobOozie> deleteJobs = new ArrayList<>();
 //        deleteJobs = reportServer.getJobList().stream()
 //                .filter(x -> !jobNames.contains(x.getJobName()))
-//                .filter(x-> !frontJobTypes.contains(x.getJobType()))
+//                .filter(x-> !frontJobTypes.contains(x.getIdJobType()))
 //                .collect(Collectors.toList());
 
         //reportServer.getJobList().forEach(job);
@@ -158,7 +157,7 @@ public class MappingController {
             JobOozie currentJob = reportServer.getJobList().get(i);
             for (int j = 0; j <frontJobCollection.size() ; j++) {
                 if(currentJob.getJobName().equals(frontJobCollection.get(j).getjName())
-                &&   currentJob.getJobType().equals(frontJobCollection.get(j).getjType())){
+                &&   currentJob.getIdJobType().equals(frontJobCollection.get(j).getjType())){
                     jobExist = true;
                 }
             }
@@ -172,7 +171,7 @@ public class MappingController {
 
         List<JobOozie> dbJobs = reportServer.getJobList();
         List<NameTypeColletion> tcl = new ArrayList<>();
-        dbJobs.forEach(el -> tcl.add(new NameTypeColletion(el.getJobName(), el.getJobType())));
+        dbJobs.forEach(el -> tcl.add(new NameTypeColletion(el.getJobName(), el.getIdJobType())));
 
         List<NameTypeColletion> addJob = frontJobCollection.stream()
                 .filter(x -> !tcl.contains(x))

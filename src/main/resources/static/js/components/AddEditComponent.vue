@@ -57,7 +57,7 @@
                 if ( jobs ) {
                     for (let i = 0; i < jobs.length; i++) {
                         let job = jobs[ i ];
-                        if ( !( job.jobName && job.jobType ) || !( job.jobName.trim().length > 0 && job.jobType !== undefined ) ) {
+                        if ( !( job.jobName && job.idJobType ) || !( job.jobName.trim().length > 0 && job.idJobType !== undefined ) ) {
                             jobIsNotEmpty = false;
                             break;
                         }

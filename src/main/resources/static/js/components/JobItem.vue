@@ -28,7 +28,7 @@
                 default: {
                     id: 0,
                     jobName: '',
-                    jobType: null
+                    idJobType: null
                 }
             },
             index: {
@@ -127,7 +127,7 @@
         },
         beforeMount(){
             this.jobName = this.jobItem.jobName;
-            let typeId = this.jobItem.jobType || 0;
+            let typeId = this.jobItem.idJobType || 0;
             for( let i = 0; i < this.options.length; i++ ){
                 if( this.options[i].value === typeId ){
                     this.options[i].selected = true;
@@ -141,7 +141,7 @@
             this.jobName = this.jobItem.jobName;
         },
         updated(){
-            let typeId = this.jobItem.jobType || 0;
+            let typeId = this.jobItem.idJobType || 0;
             for( let i = 0; i < this.options.length; i++ ){
                 this.options[i].value === typeId ? this.options[i].selected = true : this.options[i].selected = false;
             }
