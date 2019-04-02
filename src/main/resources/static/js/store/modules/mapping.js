@@ -47,7 +47,7 @@ export default {
                 commit( 'setReports', result );
             } ).catch( e => {
                 commit( 'setProcessing', false );
-                console.log( 'при получении списка репортов произошла ошибка' );
+                console.log( 'при получении списка репортов произошла ошибка', e );
             } );
         },
         getReportById( { commit, dispatch }, id ){
@@ -59,12 +59,11 @@ export default {
                 responseType: 'json',
             };
             getData( settings ).then( result => {
-                console.log( result );
                 commit( 'setProcessing', false );
                 commit( 'setReportData', result );
             } ).catch( e => {
                 commit( 'setProcessing', false );
-                console.log( 'при отчета произошла ошибка' );
+                console.log( 'при отчета произошла ошибка', e );
             } );
         },
         setAddEditComponentsVisible( { commit }, settings ){
@@ -86,7 +85,7 @@ export default {
                 } ).catch( e => {
                     commit( 'setProcessing', false );
                     commit( 'setConfirmDialogVisible', false );
-                    console.log( 'при удалении отчета произошла ошибка' );
+                    console.log( 'при удалении отчета произошла ошибка', e );
                 } );
             }
         },
@@ -105,10 +104,10 @@ export default {
                 commit( 'setProcessing', false );
                 commit( 'setVisible', { visible: false, mode: 'add' } );
                 dispatch('getReports');
-            } ).catch( () => {
+            } ).catch( e => {
                 commit( 'setProcessing', false );
                 commit( 'setVisible', { visible: false, mode: 'edit' } );
-                console.log( 'при создании нового маппинга произошла ошибка' );
+                console.log( 'при создании нового маппинга произошла ошибка', e );
             } );
         },
         editMapping( { commit, dispatch }, report){
@@ -129,7 +128,7 @@ export default {
             } ).catch( e => {
                 commit( 'setProcessing', false );
                 commit( 'setVisible', { visible: false, mode: 'edit' } );
-                console.log( 'при редактировании отчета произошла ошибка' );
+                console.log( 'при редактировании отчета произошла ошибка', e );
             } );
         },
         cleanReportToDelete( { commit } ){
@@ -228,7 +227,7 @@ export default {
         setReportToDelete( state, payload ){
             state.reportToDelete = payload
         },
-        cleanReportToDelete( state, payload ){
+        cleanReportToDelete( state ){
             state.reportToDelete = null;
         }
     }
