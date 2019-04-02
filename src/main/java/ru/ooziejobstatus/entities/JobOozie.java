@@ -26,6 +26,12 @@ public class JobOozie {
     @Column(name = "id_job_type")
     private Integer idJobType;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_job_type", referencedColumnName = "id", updatable = false, insertable = false)
+    private JobType jobType;
+
+
     public JobOozie() {
     }
 
@@ -67,15 +73,15 @@ public class JobOozie {
     }
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_report_pentaho", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "id_report_pentaho")
     private Report report;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        JobOozie jobOozie = (JobOozie)o;
+        JobOozie jobOozie = (JobOozie) o;
         return Objects.equals(id, jobOozie.id) &&
                 Objects.equals(jobName, jobOozie.jobName) &&
                 Objects.equals(idJobType, jobOozie.idJobType);

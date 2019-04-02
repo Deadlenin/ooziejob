@@ -21,6 +21,8 @@ public class Report implements Serializable {
 
     @OneToMany(mappedBy = "report", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobOozie> jobList;
+
+
     private Report report;
 
 

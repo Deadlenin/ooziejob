@@ -12,12 +12,15 @@ public class JobType {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "type_name", updatable = false, unique = true, nullable = false)
+    @Column(name = "type_name", unique = true, nullable = false)
     private String typeName;
 
     public Long getId() {
         return id;
     }
+
+    @OneToOne(mappedBy = "jobType")
+    private JobOozie jobOozie;
 
     public void setId(Long id) {
         this.id = id;
