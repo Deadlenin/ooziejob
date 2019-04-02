@@ -51,13 +51,16 @@
             } ),
             isDisabled() {
                 let disabled = false;
-                let jobIsNotEmpty = true;
+                let jobIsNotEmpty = false;
                 let jobs = this.AddEditMode === 'add' ? this.newJobItems : this.jobItems;
                 let reportNameIsNotEmpty = this.getReportName.trim().length > 0;
                 if ( jobs ) {
                     for (let i = 0; i < jobs.length; i++) {
                         let job = jobs[ i ];
-                        if ( !( job.jobName && job.idJobType ) || !( job.jobName.trim().length > 0 && job.idJobType !== undefined ) ) {
+                        if ( job.jobName && job.jobName.trim().length > 0 && job.idJobType !== undefined && job.idJobType !== null ) {
+                            jobIsNotEmpty = true;
+                        }
+                        else{
                             jobIsNotEmpty = false;
                             break;
                         }

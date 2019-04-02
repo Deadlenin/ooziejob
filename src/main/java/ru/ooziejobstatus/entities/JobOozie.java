@@ -16,26 +16,26 @@ public class JobOozie {
 
     @Basic
     @Column(name = "job_name")
-    private String JobName;
+    private String jobName;
 
     public void setIdJobType(Integer idJobType) {
-        IdJobType = idJobType;
+        this.idJobType = idJobType;
     }
 
     @Basic
     @Column(name = "id_job_type")
-    private Integer IdJobType;
+    private Integer idJobType;
 
     public JobOozie() {
     }
 
     public JobOozie(String jobName) {
-        this.JobName = jobName;
+        this.jobName = jobName;
     }
 
     public JobOozie(String jobName, Integer idJobType) {
-        this.JobName = jobName;
-        this.IdJobType = idJobType;
+        this.jobName = jobName;
+        this.idJobType = idJobType;
     }
 
     public Long getId() {
@@ -47,15 +47,15 @@ public class JobOozie {
     }
 
     public String getJobName() {
-        return JobName;
+        return jobName;
     }
 
     public void setJobName(String jobName) {
-        this.JobName = jobName;
+        this.jobName = jobName;
     }
 
     public Integer getIdJobType() {
-        return IdJobType;
+        return idJobType;
     }
 
     public Report getReport() {
@@ -77,13 +77,13 @@ public class JobOozie {
         if (o == null || getClass() != o.getClass()) return false;
         JobOozie jobOozie = (JobOozie)o;
         return Objects.equals(id, jobOozie.id) &&
-                Objects.equals(JobName, jobOozie.JobName) &&
-                Objects.equals(IdJobType, jobOozie.IdJobType);
+                Objects.equals(jobName, jobOozie.jobName) &&
+                Objects.equals(idJobType, jobOozie.idJobType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, JobName, IdJobType);
+        return Objects.hash(id, jobName, idJobType);
     }
 
 }

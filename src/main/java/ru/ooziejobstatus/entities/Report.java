@@ -17,10 +17,10 @@ public class Report implements Serializable {
 
     @Basic
     @Column(name = "report_path")
-    private String ReportPath;
+    private String reportPath;
 
     @OneToMany(mappedBy = "report", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JobOozie> JobList;
+    private List<JobOozie> jobList;
     private Report report;
 
 
@@ -41,17 +41,17 @@ public class Report implements Serializable {
 
 
     public String getReportPath() {
-        return ReportPath;
+        return reportPath;
     }
 
     public void setReportPath(String reportPath) {
-        ReportPath = reportPath.trim();
+        this.reportPath = reportPath.trim();
     }
 
     public List<JobOozie> getJobList() {
-        if (JobList == null)
-            JobList = new ArrayList<>();
-        return JobList;
+        if (jobList == null)
+            jobList = new ArrayList<>();
+        return jobList;
     }
 
     public Report addJobOozie(JobOozie jobOozie){
@@ -61,7 +61,7 @@ public class Report implements Serializable {
     }
 
     public void setJobList(List<JobOozie> JobList) {
-        this.JobList = JobList;
+        this.jobList = JobList;
     }
 
     @Override
@@ -70,12 +70,12 @@ public class Report implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Report that = (Report)o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(ReportPath, that.ReportPath) &&
-                Objects.equals(JobList, that.JobList);
+                Objects.equals(reportPath, that.reportPath) &&
+                Objects.equals(jobList, that.jobList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ReportPath);
+        return Objects.hash(id, reportPath);
     }
 }

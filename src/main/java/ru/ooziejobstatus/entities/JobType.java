@@ -13,7 +13,7 @@ public class JobType {
     private Long id;
 
     @Column(name = "type_name", updatable = false, unique = true, nullable = false)
-    private String TypeName;
+    private String typeName;
 
     public Long getId() {
         return id;
@@ -24,11 +24,11 @@ public class JobType {
     }
 
     public String getTypeName() {
-        return TypeName;
+        return typeName;
     }
 
     public void setTypeName(String typeName) {
-        TypeName = typeName;
+        this.typeName = typeName;
     }
 
     @Override
@@ -37,11 +37,11 @@ public class JobType {
         if (o == null || getClass() != o.getClass()) return false;
         JobType jobType = (JobType) o;
         return Objects.equals(id, jobType.id) &&
-                Objects.equals(TypeName, jobType.TypeName);
+                Objects.equals(typeName, jobType.typeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, TypeName);
+        return Objects.hash(id, typeName);
     }
 }

@@ -175,7 +175,7 @@ export default {
             let id = payload.id;
             let target = jobs.find( el => el.id === id );
             if( target ){
-                target.jobType = payload.value;
+                target.idJobType = payload.value;
             }
             if(state.AddEditMode === 'add'){
                 state.newJobItems = null;

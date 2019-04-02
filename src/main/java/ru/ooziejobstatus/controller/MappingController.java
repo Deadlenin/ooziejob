@@ -23,23 +23,9 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class MappingController {
     private class NameTypeColletion {
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            NameTypeColletion that = (NameTypeColletion) o;
-            return Objects.equals(jName, that.jName) &&
-                    Objects.equals(jType, that.jType);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(jName, jType);
-        }
-
         private String jName;
-        private Integer jType;
 
+        private Integer jType;
         public String getjName() {
             return jName;
         }
@@ -59,6 +45,20 @@ public class MappingController {
         public NameTypeColletion(String jName, Integer jType) {
             this.jName = jName;
             this.jType = jType;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NameTypeColletion that = (NameTypeColletion) o;
+            return Objects.equals(jName, that.jName) &&
+                    Objects.equals(jType, that.jType);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(jName, jType);
         }
     }
 
@@ -115,7 +115,7 @@ public class MappingController {
         List<JobApi> frontJobs = report.getJobs();
         Report reportToSave = new Report();
         reportToSave.setReportPath("/home/reports/".concat(rNmae));
-        frontJobs.forEach(job-> reportToSave.addJobOozie(new JobOozie(job.getJobName(), job.getJobType())));
+        frontJobs.forEach(job-> reportToSave.addJobOozie(new JobOozie(job.getJobName(), job.getIdJobType())));
         Report respReport = reportRepository.saveAndFlush(reportToSave);
         return respReport;
     }
@@ -138,10 +138,10 @@ public class MappingController {
         frontJobs.forEach(el -> jobNames.add(el.getJobName()));
 
         List<Integer> frontJobTypes = new ArrayList<>();
-        frontJobs.forEach(el -> frontJobTypes.add(el.getJobType()));
+        frontJobs.forEach(el -> frontJobTypes.add(el.getIdJobType()));
 
         List<NameTypeColletion> frontJobCollection = new ArrayList<>();
-        frontJobs.forEach(el -> frontJobCollection.add(new NameTypeColletion(el.getJobName(), el.getJobType())));
+        frontJobs.forEach(el -> frontJobCollection.add(new NameTypeColletion(el.getJobName(), el.getIdJobType())));
 
 
         List<JobOozie> deleteJobs = new ArrayList<>();
@@ -157,7 +157,7 @@ public class MappingController {
             JobOozie currentJob = reportServer.getJobList().get(i);
             for (int j = 0; j <frontJobCollection.size() ; j++) {
                 if(currentJob.getJobName().equals(frontJobCollection.get(j).getjName())
-                &&   currentJob.getIdJobType().equals(frontJobCollection.get(j).getjType())){
+                && currentJob.getIdJobType() != null  && currentJob.getIdJobType().equals(frontJobCollection.get(j).getjType())){
                     jobExist = true;
                 }
             }
@@ -181,5 +181,4 @@ public class MappingController {
         Report rep = reportRepository.saveAndFlush(reportServer);
         return rep;
     }
-
 }
