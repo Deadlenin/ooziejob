@@ -1,21 +1,18 @@
 package ru.ooziejobstatus.controller;
 
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.ooziejobstatus.entities.JobOozie;
+import ru.ooziejobstatus.SessionFactoryBuilder;
 import ru.ooziejobstatus.entities.Report;
 import ru.ooziejobstatus.exception.NotFoundException;
-import ru.ooziejobstatus.models.JobApi;
-import ru.ooziejobstatus.models.ReportFrontApi;
-import ru.ooziejobstatus.models.ReportResponse;
 import ru.ooziejobstatus.models.ReportApi;
 import ru.ooziejobstatus.repos.ReportRepository;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -87,21 +84,23 @@ public class MappingController {
         return resp;
     }
 //
-//    @GetMapping(value = "/get")
-//    @CrossOrigin(origins = "*")
-//    public ResponseEntity<ReportApi> get(@RequestParam("id") Long id) {
-//        Optional<Report> one = reportRepository.findById(id);
-//        if (!one.isPresent())
-//            throw new NotFoundException("Report with id " + id + " does not exists");
-//        ReportApi response = new ReportApi();
-//        Report rep = one.get();
-//        response.setId(rep.getId());
-//        response.setReportName(rep.getReportPath().split("home/reports")[1].substring(1));
+    @GetMapping(value = "/get")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<ReportApi> get(@RequestParam("id") Long id) {
+        Optional<Report> one = reportRepository.findById(id);
+        if (!one.isPresent())
+            throw new NotFoundException("Report with id " + id + " does not exists");
+        ReportApi response = new ReportApi();
+        Report rep = one.get();
+        response.setId(rep.getId());
+        response.setReportName(rep.getReportPath().split("home/reports")[1].substring(1));
+        SessionFactory sf = SessionFactoryBuilder.getInstance();
+        Session session = sf.openSession();
 //        List<JobOozie> jl = rep.getJobList();
 //
 //        response.setJobs(rep.getJobList());
-//        return new ResponseEntity<>(response, OK);
-//    }
+        return new ResponseEntity<>(response, OK);
+    }
 //
 //    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 //    @CrossOrigin(origins = "*")
