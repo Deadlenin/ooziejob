@@ -21,19 +21,19 @@ import static org.springframework.http.HttpStatus.OK;
 @CrossOrigin(origins = "*")
 
 public class DashboardController {
-    @Autowired
-    private ReportRepository reportRepository;
-
-    @GetMapping("/")
-    public ResponseEntity<List<ReportResponse>> list() {
-        List<Report> reports = reportRepository.findAll();
-        List<ReportResponse> response = new ArrayList<>();
-//        for (int i = 0; i <reports.size() ; i++) {
-//            ReportResponse repItem = new ReportResponse();
-//            repItem.setId(reports.get(i).getId());
-//            repItem.setReportName(reports.get(i).getReportPath());
-//            response.add(repItem);
-//        }
-        return new ResponseEntity<>(response, OK);
-    }
+//    @Autowired
+//    private ReportRepository reportRepository;
+//
+//    @GetMapping("/")
+//    public ResponseEntity<List<ReportResponse>> list() {
+//        List<Report> reports = reportRepository.findAll();
+//        List<ReportResponse> response = new ArrayList<>();
+////        for (int i = 0; i <reports.size() ; i++) {
+////            ReportResponse repItem = new ReportResponse();
+////            repItem.setId(reports.get(i).getId());
+////            repItem.setReportName(reports.get(i).getReportPath());
+////            response.add(repItem);
+////        }
+//        return new ResponseEntity<>(response, OK);
+//    }
 }

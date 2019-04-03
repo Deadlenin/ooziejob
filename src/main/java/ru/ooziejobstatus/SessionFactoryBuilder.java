@@ -12,7 +12,7 @@ public class SessionFactoryBuilder {
             synchronized (SessionFactoryBuilder.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = new Configuration()
+                    return instance = new Configuration()
                             .configure().buildSessionFactory();
                 }
             }

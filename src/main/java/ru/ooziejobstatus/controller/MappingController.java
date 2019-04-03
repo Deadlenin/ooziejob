@@ -3,75 +3,44 @@ package ru.ooziejobstatus.controller;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.ooziejobstatus.SessionFactoryBuilder;
 import ru.ooziejobstatus.entities.Report;
-import ru.ooziejobstatus.exception.NotFoundException;
 import ru.ooziejobstatus.models.ReportApi;
-import ru.ooziejobstatus.repos.ReportRepository;
 
-import java.util.*;
-
-import static org.springframework.http.HttpStatus.OK;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
 public class MappingController {
-    private class NameTypeColletion {
-        private String jName;
 
-        private Integer jType;
-        public String getjName() {
-            return jName;
-        }
-
-        public void setjName(String jName) {
-            this.jName = jName;
-        }
-
-        public Integer getjType() {
-            return jType;
-        }
-
-        public void setjType(Integer jType) {
-            this.jType = jType;
-        }
-
-        public NameTypeColletion(String jName, Integer jType) {
-            this.jName = jName;
-            this.jType = jType;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            NameTypeColletion that = (NameTypeColletion) o;
-            return Objects.equals(jName, that.jName) &&
-                    Objects.equals(jType, that.jType);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(jName, jType);
-        }
-    }
-
-    @Autowired
-    private ReportRepository reportRepository;
+     private SessionFactory sf = SessionFactoryBuilder.getInstance();
 
     @GetMapping("/")
     @CrossOrigin(origins = "*")
     public List<ReportApi> list() {
-        List<Report> reports = reportRepository.findAll();
+        Session session = sf.openSession();
+        Transaction transaction = session.beginTransaction();
 
-        List<ReportApi> resp = new ArrayList<>();
-        ReportApi rep = new ReportApi();
+
+        Report rep = new Report();
         rep.setId(1l);
-        rep.setReportName("pr");
-        resp.add(rep);
+        rep.setReportPath("pr");
+
+        session.save(rep);
+        transaction.commit();
+
+        session.close();
+        sf.close();
+
+        List<ReportApi> resparr = new ArrayList<>();
+
+
 
 //        List<ReportResponse> response = new ArrayList<>();
 //        for (int i = 0; i < reports.size(); i++) {
@@ -81,26 +50,32 @@ public class MappingController {
 //            response.add(repItem);
 //        }
 //        response.sort(Comparator.comparing(ReportResponse::getId));
-        return resp;
+        return resparr;
     }
 //
-    @GetMapping(value = "/get")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<ReportApi> get(@RequestParam("id") Long id) {
-        Optional<Report> one = reportRepository.findById(id);
-        if (!one.isPresent())
-            throw new NotFoundException("Report with id " + id + " does not exists");
-        ReportApi response = new ReportApi();
-        Report rep = one.get();
-        response.setId(rep.getId());
-        response.setReportName(rep.getReportPath().split("home/reports")[1].substring(1));
-        SessionFactory sf = SessionFactoryBuilder.getInstance();
-        Session session = sf.openSession();
-//        List<JobOozie> jl = rep.getJobList();
+//    @GetMapping(value = "/get")
+//    @CrossOrigin(origins = "*")
+//    public ReportApi get(@RequestParam("id") Long id) {
+////        Optional<Report> one = reportRepository.findById(id);
+////        if (!one.isPresent())
+////            throw new NotFoundException("Report with id " + id + " does not exists");
+////        ReportApi response = new ReportApi();
+////        Report rep = one.get();
+////        response.setId(rep.getId());
+////        response.setReportName(rep.getReportPath().split("home/reports")[1].substring(1));
 //
-//        response.setJobs(rep.getJobList());
-        return new ResponseEntity<>(response, OK);
-    }
+//        SessionFactory sf = SessionFactoryBuilder.getInstance();
+//        Session session = sf.openSession();
+//
+//        Report report = session.get(Report.class, id);
+//        ReportApi resp = new ReportApi();
+//        resp.setId(report.getId());
+//        resp.setReportName(report.getReportPath());
+////        List<JobOozie> jl = rep.getJobList();
+////
+////        response.setJobs(rep.getJobList());
+//        return resp;
+//    }
 //
 //    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 //    @CrossOrigin(origins = "*")

@@ -4,8 +4,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.boot.SpringApplication;
 import ru.ooziejobstatus.entities.Report;
-import ru.ooziejobstatus.models.ReportApi;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
 public class HibernateApplication {
@@ -18,6 +24,7 @@ public class HibernateApplication {
         Transaction transaction = session.beginTransaction();
 
         Report rep = new Report();
+        rep.setId(1l);
         rep.setReportPath("pr2");
 
         session.save(rep);

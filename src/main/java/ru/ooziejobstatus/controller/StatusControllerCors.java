@@ -24,13 +24,13 @@ import java.util.*;
 
 @RestController
 public class StatusControllerCors {
-    @Autowired
-    private ReportRepository reportRepository;
-    @CrossOrigin(origins = "*")
-    @PostMapping("/oozie")
-    public ResponseEntity<List<Response>> list(@RequestPart("json") List<String> json) {
-        List<Response> responses = new ArrayList<>(); // инициализация списка результатов которые вернутся в ответ на запрос от pentaho
-//
-        return new ResponseEntity<>(responses, HttpStatus.OK);
-    }
+//    @Autowired
+//    private ReportRepository reportRepository;
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("/oozie")
+//    public ResponseEntity<List<Response>> list(@RequestPart("json") List<String> json) {
+//        List<Response> responses = new ArrayList<>(); // инициализация списка результатов которые вернутся в ответ на запрос от pentaho
+////
+//        return new ResponseEntity<>(responses, HttpStatus.OK);
+//    }
 }
