@@ -9,7 +9,6 @@ public class ReportApi {
 
     private Long id;
     private String ReportName;
-    private List<JobOozie> Jobs;
 
     public Long getId() {
         return id;
@@ -27,11 +26,29 @@ public class ReportApi {
         ReportName = reportName;
     }
 
-    public List<JobOozie> getJobs() {
-        return Jobs;
-    }
 
-    public void setJobs(List<JobOozie> jobs) {
-        Jobs = jobs;
-    }
+
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getReportName() {
+//        return ReportName;
+//    }
+//
+//    public void setReportName(String reportName) {
+//        ReportName = reportName;
+//    }
+//
+//    public List<JobOozie> getJobs() {
+//        return Jobs;
+//    }
+//
+//    public void setJobs(List<JobOozie> jobs) {
+//        Jobs = jobs;
+//    }
 }

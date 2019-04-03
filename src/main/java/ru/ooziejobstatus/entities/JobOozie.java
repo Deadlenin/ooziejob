@@ -26,24 +26,6 @@ public class JobOozie {
     @Column(name = "id_job_type")
     private Integer idJobType;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_job_type", referencedColumnName = "id", updatable = false, insertable = false)
-    private JobType jobType;
-
-
-    public JobOozie() {
-    }
-
-    public JobOozie(String jobName) {
-        this.jobName = jobName;
-    }
-
-    public JobOozie(String jobName, Integer idJobType) {
-        this.jobName = jobName;
-        this.idJobType = idJobType;
-    }
-
     public Long getId() {
         return id;
     }
@@ -64,19 +46,6 @@ public class JobOozie {
         return idJobType;
     }
 
-    public Report getReport() {
-        return report;
-    }
-
-    public void setReport(Report reportByIdReport) {
-        this.report = reportByIdReport;
-    }
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_report_pentaho")
-    private Report report;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,5 +60,4 @@ public class JobOozie {
     public int hashCode() {
         return Objects.hash(id, jobName, idJobType);
     }
-
 }

@@ -19,8 +19,8 @@ public class JobType {
         return id;
     }
 
-    @OneToOne(mappedBy = "jobType")
-    private JobOozie jobOozie;
+//    @OneToOne(mappedBy = "jobType")
+//    private JobOozie jobOozie;
 
     public void setId(Long id) {
         this.id = id;
